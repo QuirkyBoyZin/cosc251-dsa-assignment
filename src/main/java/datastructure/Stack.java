@@ -1,11 +1,12 @@
 package datastructure;
 import datastructure.arrays.UnorderedArray;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Stack <T>{
     private int top = -1;
-    private final T[] elements;
+    private T[] elements;
 
     @SuppressWarnings("unchecked")
     public Stack(int arraySize) {
@@ -16,6 +17,8 @@ public class Stack <T>{
     // O(n): Worst case if the stack is full needs to resize
     // O(1): Best case if the stack is not full
     public void push(T newItem) {
+        if (top + 1 == elements.length) { resize(); }
+
         top++;
         elements[top] = newItem;
     }
@@ -38,6 +41,7 @@ public class Stack <T>{
         return value;
     }
 
+
     // O(n): Iterating over the entire stack then displaying in a stack manner
     public void display() {
         for (int i = top; i >= 0 ; i--) System.out.println("| " + elements[i] + " |");
@@ -51,5 +55,16 @@ public class Stack <T>{
                 "top=" + top +
                 ", elements=" + Arrays.toString(elements) +
                 '}';
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private void resize() {
+        int size = elements.length;
+        T[] newArray = (T[]) new Object[size* 2];
+        System.arraycopy(elements, 0, newArray, 0, size);
+        elements = newArray;
+
+
     }
 }
