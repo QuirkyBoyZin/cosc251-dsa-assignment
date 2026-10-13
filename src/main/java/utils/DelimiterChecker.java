@@ -4,57 +4,45 @@ import datastructure.Stack;
 
 public class DelimiterChecker {
     public static boolean check(String input) {
-        if (input.isBlank() || input.length() == 1) {
-            throw new IllegalArgumentException("Please enter a complete string");
-        }
-        //remove any trailing or leading spaces
-        input = input.trim();
-        int stringLength = input.length();
+        int length = input.length();
+        if (input.isBlank() || length == 1) return true; // Nothing to check
 
-        Stack<String> stack = new Stack<>(stringLength);
-
-        // get the sequence of letters from input to iterate over
-        char[] charArr = input.toCharArray();
+        Stack<String> stack = new Stack<>(length);
 
         // Check for [ { ( and ] { )
-        for (char delimiter : charArr) {
-            // Only Push to stack if there is an opening delimiter in the string
-            if (isOpeningDelimiter(delimiter)) {
-                stack.push(String.valueOf(delimiter));
+        for (int i = 0; i < length; i++) {
+            // Character at each index
+            char c = input.charAt(i);
 
-            } else if (isClosingDelimiter(delimiter)) {
-                char closingDelimiter   = delimiter;
-                String openingDelimiter = stack.pop();  // The top should be an opening delimiter to match with the closing
+            // Check for opening delimiter  [ { (
+            // Push to stack when matches
+            if (c == '[' || c == '{' || c == '(') {
+                stack.push(String.valueOf(c));
+            }
 
+            // Check for closing delimiter ] { )
+            else if (c == ']' || c == '}' || c == ')') {
                 // null means there was never an opening delimiter to close with in the beginning
-                if (openingDelimiter == null) {
+                if (stack.peek() == null) {
                     return false;
                 }
+
+                char openingDelimiter = stack.pop().charAt(0);
 
                 // Only returning false if the opening and closing delimiter doesn't match !
-                if (!isMatchingDelimiter(openingDelimiter.charAt(0), closingDelimiter)  ) {
-                    return false;
-                }
+                if (!isMatchingDelimiter(openingDelimiter, c)) return false;
+
             }
-        }
 
+        }
         // if the top of the stack isn't equal to null, it means there is still one or multiple opening delimiters still left in the stack
-        if (stack.peek() != null) {
-            return false;
-        }
-
         // returning true if and only the stack is empty
-        return true;
+        return stack.peek() == null;
     }
 
-
-    public static boolean isOpeningDelimiter(char openingDelimiter) {
-        return openingDelimiter == '[' || openingDelimiter ==  '{' || openingDelimiter == '(';
-    }
-    public static boolean isClosingDelimiter(char closingDelimiter) {
-        return closingDelimiter == ']' || closingDelimiter ==  '}' || closingDelimiter == ')';
-    }
     public static boolean isMatchingDelimiter(char openingDelimiter, char closingDelimiter) {
-        return (openingDelimiter == '[' && closingDelimiter == ']') || (openingDelimiter == '{' && closingDelimiter == '}') || (openingDelimiter == '(' && closingDelimiter == ')');
+        return (openingDelimiter == '[' && closingDelimiter == ']') ||
+                (openingDelimiter == '{' && closingDelimiter == '}') ||
+                (openingDelimiter == '(' && closingDelimiter == ')');
     }
 }
