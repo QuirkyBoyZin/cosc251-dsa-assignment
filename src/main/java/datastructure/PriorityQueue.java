@@ -1,8 +1,9 @@
 package datastructure;
 import java.util.Arrays;
+import java.util.Objects;
 
+// Inner class to keep track of the given item with the given priority
 record Item<T>(T item, int priorityValue) {
-
     @Override
     public String toString() {
         return (String) item;
@@ -10,80 +11,45 @@ record Item<T>(T item, int priorityValue) {
 
 }
 
-public class PriorityQueue  <T > {
-    private Class<?> type;        // The type of the array during runtime
+public class PriorityQueue  <T> {
+
     private Item<T>[] items;     // The elements in the queue
+    private int pointer;        // Points at the next available position
     private int arraySize;       // The length of the queue
 
-    private int rear;      //   Points at the last element
-    private int front;    //    Points at the first  element to be dequeued
-
+    @SuppressWarnings("unchecked")
     public PriorityQueue(int arraySize) {
         if (arraySize <= 0) {
             throw new IllegalArgumentException("Size must be greater than 0");
         }
-
+        this.pointer   = 0;
         this.arraySize = arraySize;
+        this.items     = new Item[arraySize];
+
     }
 
-   @SuppressWarnings("unchecked")
     public void insert(T newItem, int priorityValue) {
-        if (items == null) {
-            this.type = newItem.getClass();
-            items =  new Item[arraySize];
-        }
-
+       Objects.requireNonNull(newItem);
        insertToArray(newItem, priorityValue);
-
    }
 
-
-    @SuppressWarnings("unchecked")
-    private void resizeArray() {
-        Item<T>[] newArray =  new Item[arraySize * 2];
-
-        for (int i = 0; i < arraySize; i++) {
-            newArray[i] = items[i];
-        }
-
-
-        items = newArray;
-        arraySize *=2;
-
-    }
-
     public T remove() {
-        if (items == null) {
-            return null;
-        }
+        if (items[0] == null) return null;
 
-        Item<T> removedElement = items[front];
-        items[front] = null;
-        if (removedElement == null) {
-            return null;
-        }
+        T removedElement = items[0].item();
 
-        front++;
+        for (int i = 0; i < pointer - 1; i++) {items[i] = items[i + 1]; }
 
-        return removedElement.item();
+        items[pointer - 1] = null;
+        pointer--;
+
+        return removedElement;
 
     }
 
-    public T peekFront() {
-        if (items == null || items[rear - 1] == null) {
-            return null;
-        }
+    public T peekFront() { return (items[0] != null) ? items[0].item() : null; }
 
-        return items[front].item();
-    }
-
-    public T peekRear() {
-        if (items == null || items[rear - 1] == null) {
-            return null;
-        }
-
-        return items[rear - 1].item();
-    }
+    public T peekRear() { return (items[0] != null) ? items[pointer - 1].item(): null; }
 
     public void display() {
         System.out.print(" Out ");
@@ -99,16 +65,25 @@ public class PriorityQueue  <T > {
     @Override
     public String toString() {
         return "PriorityQueue{" +
-                "type=" + type +
                 ", elements=" + Arrays.toString(items) +
+                ", pointer= " + pointer +
                 ", arraySize=" + arraySize +
-                ", rear=" + rear +
-                ", front=" + front +
                 '}';
     }
 
+    @SuppressWarnings("unchecked")
+    private void resizeArray() {
+        Item<T>[] newArray =  new Item[arraySize * 2];
+
+        if (arraySize >= 0) System.arraycopy(items, 0, newArray, 0, arraySize);
+
+        items = newArray;
+        arraySize *=2;
+
+    }
+
     private void insertToArray(T newItem, int priorityValue) {
-        if (rear + 1 == arraySize) resizeArray();
+        if (pointer == arraySize) resizeArray();
 
         Item<T> item = new Item<>(newItem, priorityValue);
 
@@ -116,16 +91,16 @@ public class PriorityQueue  <T > {
 
         // index == -1 means the item is the lowest priority
         if (index == -1 ) {
-            items[rear] = item;
-            rear++;
+            items[pointer] = item;
+            pointer++;
             return;
         }
 
-        if (items[index] != null) shiftArray(index);
-
+        if (items[index] != null) { shiftArray(index); }
         items[index] = item;
-    }
+        pointer++;
 
+    }
 
     private int findInsertionPosition(Item<T> item) {
         for (int i = 0; i < arraySize; i++) {
@@ -137,7 +112,7 @@ public class PriorityQueue  <T > {
     }
 
     private void shiftArray(int index) {
-        for (int i = rear + 1; i > index; i--) items[i] = items[i-1];
-        rear++;
+        for (int i = pointer + 1; i > index; i--) items[i] = items[i-1];
+        pointer++;
     }
 }
