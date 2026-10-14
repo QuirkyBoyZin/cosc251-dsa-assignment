@@ -44,7 +44,7 @@ public class PriorityQueue<T> {
         }
 
         if (items[index] != null) {
-            for (int i = pointer + 1; i > index; i--) items[i] = items[i - 1];
+            for (int i = pointer; i > index; i--) items[i] = items[i - 1];
         }
         items[index] = item;
         pointer++;

@@ -5,7 +5,7 @@ import datastructure.Stack;
 public class DelimiterChecker {
     public static boolean check(String input) {
         int length = input.length();
-        if (input.isBlank() || length == 1) return true; // Nothing to check
+        if (input.isBlank()) return true; // Nothing to check
 
         Stack<String> stack = new Stack<>(length);
 

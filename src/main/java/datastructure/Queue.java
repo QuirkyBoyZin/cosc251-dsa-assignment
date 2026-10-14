@@ -49,9 +49,7 @@ public class Queue<T> {
     }
 
     // O(1): Accessing array is constant
-    public T peekRear() {
-        return (pointer - 1 < 0) ?  null : elements[pointer - 1];
-    }
+    public T peekRear() { return (elements[0] != null) ? elements[pointer - 1]: null; }
 
 
     @Override

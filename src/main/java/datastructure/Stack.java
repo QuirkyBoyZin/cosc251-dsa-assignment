@@ -1,8 +1,7 @@
 package datastructure;
-import datastructure.arrays.UnorderedArray;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Stack <T>{
     private int top = -1;
@@ -17,6 +16,8 @@ public class Stack <T>{
     // O(n): Worst case if the stack is full needs to resize
     // O(1): Best case if the stack is not full
     public void push(T newItem) {
+        Objects.requireNonNull(newItem);
+
         if (top + 1 == elements.length) { resize(); }
 
         top++;
