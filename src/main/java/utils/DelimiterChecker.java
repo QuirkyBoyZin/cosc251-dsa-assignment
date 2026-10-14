@@ -41,8 +41,6 @@ public class DelimiterChecker {
     }
 
     public static boolean isMatchingDelimiter(char openingDelimiter, char closingDelimiter) {
-        return (openingDelimiter == '[' && closingDelimiter == ']') ||
-                (openingDelimiter == '{' && closingDelimiter == '}') ||
-                (openingDelimiter == '(' && closingDelimiter == ')');
+        return (openingDelimiter == '[' && closingDelimiter == ']') || (openingDelimiter == '{' && closingDelimiter == '}') || (openingDelimiter == '(' && closingDelimiter == ')');
     }
 }

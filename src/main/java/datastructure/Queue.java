@@ -35,7 +35,9 @@ public class Queue<T> {
 
         T removedElement = elements[0];
 
-        for (int i = 0; i < pointer - 1; i++) { elements[i] = elements[i + 1]; }
+        for (int i = 0; i < pointer - 1; i++) {
+            elements[i] = elements[i + 1];
+        }
 
         elements[pointer - 1] = null;
         pointer--;
@@ -49,7 +51,9 @@ public class Queue<T> {
     }
 
     // O(1): Accessing array is constant
-    public T peekRear() { return (elements[0] != null) ? elements[pointer - 1]: null; }
+    public T peekRear() {
+        return (elements[0] != null) ? elements[pointer - 1] : null;
+    }
 
 
     @Override
