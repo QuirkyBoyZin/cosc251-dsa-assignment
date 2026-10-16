@@ -1,6 +1,7 @@
 package datastructure.linkedlist.singlylink;
 
 public class LinkedList<T> {
+    private Link<T> head, tail;
 
     public LinkedList() {
     }
@@ -40,7 +41,7 @@ public class LinkedList<T> {
     }
 
     public boolean isEmpty() {
-        return false;
+        return head == null; // if head is not if it's not pointing to anything
     }
 
     public void display() {
