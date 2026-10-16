@@ -4,13 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 // Inner class to keep track of the given item with the given priority
-record Item<T>(T item, int priorityValue) {
-    @Override
-    public String toString() {
-        return (String) item;
-    }
-
-}
+record Item<T>(T item, int priorityValue){}
 
 public class PriorityQueue<T> {
     private Item<T>[] items;     // The elements in the queue
