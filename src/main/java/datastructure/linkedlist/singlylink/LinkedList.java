@@ -20,33 +20,45 @@ public class LinkedList<T> {
 
 
     public boolean deleteFirst() {
+        if (isEmpty()) return false;
+
+
         return false;
     }
 
     public boolean deleteLast() {
+        if (isEmpty()) return false;
+
         return false;
 
     }
 
     public boolean deleteAt(int index) {
+        if (isEmpty()) return false;
+
         return false;
     }
 
     public boolean deleteKey(T key) {
+        if (isEmpty()) return false;
+
         return false;
     }
 
     public int find(T key) {
+        if (isEmpty()) {
+            return -1;
+        }
+
+
         return -1;
     }
 
     public boolean isEmpty() {
-        return head == null; // if head is not if it's not pointing to anything
+        return head == null; // if head is null then there's no link, hence the linkedlist is empty
     }
 
-    public void display() {
-
-    }
+    public void display() {}
 
     @Override
     public String toString() {
