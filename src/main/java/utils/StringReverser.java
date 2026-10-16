@@ -1,6 +1,6 @@
 package utils;
 
-import datastructure.Stack;
+import datastructure.stack.Stack;
 
 import java.util.Objects;
 

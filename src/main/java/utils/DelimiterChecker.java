@@ -1,6 +1,6 @@
 package utils;
 
-import datastructure.Stack;
+import datastructure.stack.Stack;
 
 public class DelimiterChecker {
     public static boolean check(String input) {

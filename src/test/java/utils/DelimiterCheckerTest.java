@@ -1,9 +1,8 @@
-package datastructure;
+package utils;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import utils.DelimiterChecker;
 
 import static org.junit.jupiter.api.Assertions.*;
 
