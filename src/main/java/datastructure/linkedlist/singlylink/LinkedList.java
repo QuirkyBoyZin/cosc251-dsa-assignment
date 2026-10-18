@@ -62,7 +62,10 @@ public class LinkedList<T> {
         if (index == 0) {
             insertFirst(newItem);
             return;
-        } else if (index == maxIndex) {
+        }
+
+        // Inserting at the end
+        if (index == maxIndex) {
             insertLast(newItem);
             return;
         }
