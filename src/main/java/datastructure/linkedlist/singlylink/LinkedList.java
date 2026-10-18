@@ -7,6 +7,16 @@ public class LinkedList<T> {
     }
 
     public void insertFirst(T newItem) {
+        Objects.requireNonNull(newItem);
+
+        if (isEmpty()) {
+            head = new Link<>(newItem, null);
+            tail = head;  // tail only change here initially
+            return;
+        }
+
+        // Not empty
+        head = new Link<>(newItem, head);   // head points to new Link, New link point to head's previous link
 
     }
 
