@@ -21,6 +21,18 @@ public class LinkedList<T> {
     }
 
     public void insertLast(T newItem) {
+        Objects.requireNonNull(newItem);
+
+        if (isEmpty()) {
+            head = new Link<>(newItem, null);
+            tail = head;  // tail only change here initially
+            return;
+        }
+
+        // Not empty
+        Link<T> link = new Link<>(newItem,null);
+        tail.setNext(link);
+        tail = link;
 
     }
 
