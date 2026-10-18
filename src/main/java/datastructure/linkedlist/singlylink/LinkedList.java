@@ -1,7 +1,16 @@
 package datastructure.linkedlist.singlylink;
+import java.util.Objects;
 
 public class LinkedList<T> {
     private Link<T> head, tail;
+
+    public Link<T> getHead() {
+        return head;
+    }
+
+    public Link<T> getTail() {
+        return tail;
+    }
 
     public LinkedList() {
     }
@@ -30,13 +39,42 @@ public class LinkedList<T> {
         }
 
         // Not empty
-        Link<T> link = new Link<>(newItem,null);
+        Link<T> link = new Link<>(newItem, null);
         tail.setNext(link);
         tail = link;
 
     }
 
     public void insertAt(int index, T newItem) {
+        if (isEmpty()) {
+            throw new RuntimeException("Please insert an element first");
+        }
+
+        Objects.requireNonNull(newItem);
+
+        int size = size();
+        int maxIndex = size - 1;
+        if (index < 0 || index > maxIndex) {
+            throw new IndexOutOfBoundsException("Index must be in range of 0 to " + size);
+        }
+
+        // Inserting at the beginning or at the end
+        if (index == 0) {
+            insertFirst(newItem);
+            return;
+        } else if (index == maxIndex) {
+            insertLast(newItem);
+            return;
+        }
+
+        // Inserting at the middle
+        Link<T> link = head;
+        for (int i = 1; i < index ; i++) {
+            link = link.getNext(); // Get the link before the actual link at the index
+        }
+
+        link.setNext(new Link<>(newItem, link.getNext()));
+
 
     }
 
@@ -80,10 +118,37 @@ public class LinkedList<T> {
         return head == null; // if head is null then there's no link, hence the linkedlist is empty
     }
 
-    public void display() {}
+    public void display() {
+        Link<T> link = head;          // Start traversing from the head
+
+        // if link is null then it has reached the end of the linkedlist
+        System.out.print("Head ");
+        while (link != null) {
+            T data = link.getData();      // get data from each link
+            System.out.print(" -> " + data);
+
+            link = link.getNext();      // updating the link to get new data
+        }
+        System.out.println("");
+
+
+    }
 
     @Override
     public String toString() {
-        return "LinkedList{}";
+        return "LinkedList{" + "head=" + head + ", tail=" + tail + '}';
     }
+
+    private int size() {
+        Link<T> link = head;          // Start traversing from the head
+        int size = 0;
+
+        while (link != null) {
+            size++;
+            link = link.getNext();
+        }
+
+        return size;
+    }
+
 }
