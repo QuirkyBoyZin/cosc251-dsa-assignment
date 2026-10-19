@@ -1,11 +1,11 @@
 package datastructure.linkedlist.doublylink;
 
-public class DoublyLink<T> {
-    private T data;
-    DoublyLinkedList<T> next;
-    DoublyLinkedList<T> previous;
+class DoublyLink<T> {
+    final T data;
+    DoublyLink<T> next;
+    DoublyLink<T> previous;
 
-    public DoublyLink(T data, DoublyLinkedList<T> next, DoublyLinkedList<T> previous) {
+    public DoublyLink(T data, DoublyLink<T> next, DoublyLink<T> previous) {
         this.data = data;
         this.next = next;
         this.previous = previous;
