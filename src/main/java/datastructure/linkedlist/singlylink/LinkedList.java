@@ -40,7 +40,7 @@ public class LinkedList<T> {
 
         // Not empty
         Link<T> link = new Link<>(newItem, null);
-        tail.setNext(link);
+        tail.next = link;
         tail = link;
 
     }
@@ -72,15 +72,14 @@ public class LinkedList<T> {
 
         // Inserting at the middle
         Link<T> link = head;
-        for (int i = 1; i < index ; i++) {
-            link = link.getNext(); // Get the link before the actual link at the index
+        for (int i = 1; i < index; i++) {
+            link = link.next; // Get the link before the actual link at the index
         }
 
-        link.setNext(new Link<>(newItem, link.getNext()));
+        link.next  = new Link<>(newItem, link.next);
 
 
     }
-
 
     public boolean deleteFirst() {
         if (isEmpty()) return false;
@@ -91,8 +90,8 @@ public class LinkedList<T> {
         }
 
         Link<T> removedLink = head;
-        head = head.getNext();           // Get the next link of head then refer head to it
-        removedLink.setNext(null);
+        head = head.next;           // Get the next link of head then refer head to it
+        removedLink.next = null;
 
         return true;
     }
@@ -106,11 +105,11 @@ public class LinkedList<T> {
         }
 
         Link<T> link = head;  // Traversing head to get the second last link from tail
-        while (link.getNext() != tail) {
-            link = link.getNext();
+        while (link.next != tail) {
+            link = link.next;
         }
 
-        link.setNext(null);
+        link.next = null;
         tail = link;
 
         return true;
@@ -144,12 +143,12 @@ public class LinkedList<T> {
         // Deleting at the middle
         Link<T> link = head;
         for (int i = 1; i < index; i++) {
-            link = link.getNext(); // Get the link before the removed link
+            link = link.next; // Get the link before the removed link
         }
 
-        Link<T> removedLink = link.getNext();
-        link.setNext(removedLink.getNext());
-        removedLink.setNext(null);
+        Link<T> removedLink = link.next;
+        link.next = removedLink.next;
+        removedLink.next = null;
 
         return true;
     }
@@ -171,10 +170,10 @@ public class LinkedList<T> {
         Link<T> link = head;
         int index = 0;
         while (link != null) {
-            if (link.getData().equals(key)) return index;
+            if (link.data.equals(key)) return index;
             index++;
 
-            link = link.getNext();
+            link = link.next;
         }
 
 
@@ -189,12 +188,12 @@ public class LinkedList<T> {
         Link<T> link = head;          // Start traversing from the head
 
         // if link is null then it has reached the end of the linkedlist
-        System.out.print("Head ");
+        System.out.print("Head");
         while (link != null) {
-            T data = link.getData();      // get data from each link
+            T data = link.data;      // get data from each link
             System.out.print(" -> " + data);
 
-            link = link.getNext();      // updating the link to get new data
+            link = link.next;      // updating the link to get new data
         }
         System.out.println("");
 
@@ -212,7 +211,7 @@ public class LinkedList<T> {
 
         while (link != null) {
             size++;
-            link = link.getNext();
+            link = link.next;
         }
 
         return size;
