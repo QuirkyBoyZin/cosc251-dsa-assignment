@@ -99,6 +99,19 @@ public class DoublyLinkedList<T> {
     }
 
     public int find(T key) {
+        Objects.requireNonNull(key);
+
+        if (isEmpty()) return -1;
+
+        DoublyLink<T> link = head;
+        int index = 0;
+        while (link != null) {
+            if (link.data.equals(key)) return index;
+            index++;
+
+            link = link.next;
+        }
+
         return -1;
     }
 
