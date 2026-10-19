@@ -161,8 +161,17 @@ public class LinkedList<T> {
     }
 
     public int find(T key) {
-        if (isEmpty()) {
-            return -1;
+        Objects.requireNonNull(key);
+
+        if (isEmpty()) return -1;
+
+        Link<T> link = head;
+        int index = 0;
+        while (link != null) {
+            if (link.getData().equals(key)) return index;
+            index++;
+
+            link = link.getNext();
         }
 
 
