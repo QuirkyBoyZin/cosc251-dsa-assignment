@@ -100,8 +100,20 @@ public class LinkedList<T> {
     public boolean deleteLast() {
         if (isEmpty()) return false;
 
-        return false;
+        if (tail == head) {
+            head = tail = null;
+            return true;
+        }
 
+        Link<T> link = head;  // Traversing head to get the second last link from tail
+        while (link.getNext() != tail) {
+            link = link.getNext();
+        }
+
+        link.setNext(null);
+        tail = link;
+
+        return true;
     }
 
     public boolean deleteAt(int index) {
