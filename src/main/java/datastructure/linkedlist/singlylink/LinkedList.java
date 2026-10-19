@@ -155,9 +155,12 @@ public class LinkedList<T> {
     }
 
     public boolean deleteKey(T key) {
+        Objects.requireNonNull(key);
         if (isEmpty()) return false;
 
-        return false;
+        int index = find(key);
+
+        return index != -1 && deleteAt(index);
     }
 
     public int find(T key) {
