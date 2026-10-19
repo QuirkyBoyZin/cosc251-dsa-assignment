@@ -85,8 +85,16 @@ public class LinkedList<T> {
     public boolean deleteFirst() {
         if (isEmpty()) return false;
 
+        if (head == tail) {
+            head = tail = null;
+            return true;
+        }
 
-        return false;
+        Link<T> removedLink = head;
+        head = head.getNext();           // Get the next link of head then refer head to it
+        removedLink.setNext(null);
+
+        return true;
     }
 
     public boolean deleteLast() {
