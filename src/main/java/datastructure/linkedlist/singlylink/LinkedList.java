@@ -119,7 +119,39 @@ public class LinkedList<T> {
     public boolean deleteAt(int index) {
         if (isEmpty()) return false;
 
-        return false;
+        if (isEmpty()) {
+            throw new RuntimeException("Please insert an element first");
+        }
+
+        int size = size();
+        int maxIndex = size - 1;
+        if (index < 0 || index > maxIndex) {
+            throw new IndexOutOfBoundsException("Index must be in range of 0 to " + size);
+        }
+
+        // Deleting at the beginning or at the end
+        if (index == 0) {
+            deleteFirst();
+            return true;
+        }
+
+        // Deleting at the end
+        if (index == maxIndex) {
+            deleteLast();
+            return true;
+        }
+
+        // Deleting at the middle
+        Link<T> link = head;
+        for (int i = 1; i < index; i++) {
+            link = link.getNext(); // Get the link before the removed link
+        }
+
+        Link<T> removedLink = link.getNext();
+        link.setNext(removedLink.getNext());
+        removedLink.setNext(null);
+
+        return true;
     }
 
     public boolean deleteKey(T key) {
