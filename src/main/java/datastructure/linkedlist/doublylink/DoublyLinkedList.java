@@ -82,20 +82,85 @@ public class DoublyLinkedList<T> {
     }
 
     public boolean deleteFirst() {
-        return false;
+        if (head == null) return false;
+
+        if (head == tail) {
+            head = tail = null;
+            return true;
+        }
+
+        DoublyLink<T> removedLink = head;
+        head = head.next;
+
+        removedLink.next.previous = null;
+
+        return true;
     }
 
     public boolean deleteLast() {
-        return false;
+        if (head == null) return false;
 
+        if (head == tail) {
+            head = tail = null;
+            return true;
+        }
+
+        DoublyLink<T> removedLink = tail;
+        tail = tail.previous;
+
+        removedLink.previous.next = null;
+
+        return true;
     }
 
     public boolean deleteAt(int index) {
-        return false;
+        if (head == null) return false;
+        if (isEmpty()) {
+            throw new RuntimeException("Please insert an element first");
+        }
+
+        int size = size();
+        int maxIndex = size - 1;
+        if (index < 0 || index > maxIndex) {
+            throw new IndexOutOfBoundsException("Index must be in range of 0 to " + size);
+        }
+
+        // Deleting at the beginning or at the end
+        if (index == 0) {
+            deleteFirst();
+            return true;
+        }
+
+        // Deleting at the end
+        if (index == maxIndex) {
+            deleteLast();
+            return true;
+        }
+
+        // Deleting at the middle
+        DoublyLink<T> link = head;
+        for (int i = 1; i <= index; i++) {
+            link = link.next; // Get the link at the given index
+        }
+
+        DoublyLink<T> removedLink = link;
+
+        removedLink.next.previous = removedLink.previous;
+        removedLink.previous.next = removedLink.next;
+
+        removedLink.next = null;
+        removedLink.previous = null;
+
+        return true;
     }
 
     public boolean deleteKey(T key) {
-        return false;
+        Objects.requireNonNull(key);
+        if (isEmpty()) return false;
+
+        int index = find(key);
+
+        return index != -1 && deleteAt(index);
     }
 
     public int find(T key) {
@@ -116,7 +181,7 @@ public class DoublyLinkedList<T> {
     }
 
     public boolean isEmpty() {
-        return false;
+        return head == null;
     }
 
     public void displayForward() {
@@ -134,6 +199,7 @@ public class DoublyLinkedList<T> {
     }
 
     public void displayBackward() {
+        DoublyLink<T> link = tail;          // Start traversing from the tail
 
         // if link is null then it has reached the end of the linkedlist
         System.out.print("Tail [");
