@@ -107,11 +107,30 @@ public class DoublyLinkedList<T> {
     }
 
     public void displayForward() {
+        DoublyLink<T> link = head;          // Start traversing from the head
 
+        // if link is null then it has reached the end of the linkedlist
+        System.out.print("Head [");
+        while (link != null) {
+            T data = link.data;      // get data from each link
+            System.out.print(" -> " + data);
+
+            link = link.next;      // updating the link to get new data
+        }
+        System.out.print(" ] Tail\n");
     }
 
     public void displayBackward() {
 
+        // if link is null then it has reached the end of the linkedlist
+        System.out.print("Tail [");
+        while (link != null) {
+            T data = link.data;      // get data from each link
+            System.out.print(" -> " + data);
+
+            link = link.previous;    // updating the link to get new data
+        }
+        System.out.print(" ] Head\n");
     }
 
 
