@@ -1,11 +1,11 @@
 package datastructure.linkedlist.singlylink;
 
-public class Link<T> {
-    private T data;
-    private Link<T> next;
+class Link<T> {
+    T data;
+    Link<T> next;
 
-    public Link(T data, Link<T> next) {
+    Link(T data) {
         this.data = data;
-        this.next = next;
+        this.next = null;
     }
 }
