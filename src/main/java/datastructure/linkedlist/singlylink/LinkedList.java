@@ -169,28 +169,41 @@ public class LinkedList<T> {
     }
 
     public boolean isEmpty() {
-        return head == null; // if head is null then there's no link, hence the linkedlist is empty
+        return head == null && tail == null; // if head is null then there's no link, hence the linkedlist is empty
     }
 
     public void display() {
-        Link<T> link = head;          // Start traversing from the head
+        Link<T> current = head;          // Start traversing from the head
 
         // if link is null then it has reached the end of the linkedlist
-        System.out.print("Head");
-        while (link != null) {
-            T data = link.data;      // get data from each link
-            System.out.print(" -> " + data);
-
-            link = link.next;      // updating the link to get new data
+        System.out.print("LinkedList: Head [ ");
+        while (current != null) {
+            if (current.next != null) {
+                System.out.print(current.data + " -> ");
+            } else {
+                System.out.print(current.data);
+            }
+            current = current.next;
         }
-        System.out.println("");
-
+        System.out.println(" ] Tail");
 
     }
 
     @Override
     public String toString() {
-        return "LinkedList{" + "head=" + head + ", tail=" + tail + '}';
+        Link<T> current = head;          // Start traversing from the head
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; current != null; i++) {
+            if (current.next != null) {
+                System.out.print(current.data + " -> ");
+            } else {
+                sb.append(current.data);
+            }
+            current = current.next;
+        }
+
+        return sb.toString();
     }
 
     private int size() {
