@@ -1,11 +1,13 @@
 package utils;
 
-import datastructure.Stack;
+import datastructure.stack.Stack;
 
 public class DelimiterChecker {
     public static boolean check(String input) {
-        int length = input.length();
+        if (input == null) return false;
         if (input.isBlank()) return true; // Nothing to check
+
+        int length = input.length();
 
         Stack<String> stack = new Stack<>(length);
 

@@ -1,9 +1,12 @@
 package utils;
 
-import datastructure.Stack;
+import datastructure.stack.Stack;
+
+import java.util.Objects;
 
 public class StringReverser {
     public static String reverse(String input) {
+        Objects.requireNonNull(input);
         int length = input.length();
 
         if (length < 1) {

@@ -1,52 +1,85 @@
-import datastructure.PriorityQueue;
-import datastructure.Queue;
+import datastructure.linkedlist.singlylink.LinkedList;
+import datastructure.queue.PriorityQueue;
 
 public class Main {
     public static void main(String[] args) {
-        PriorityQueue<String> queue = new PriorityQueue<>(1);
-//        Queue<String> queue = new Queue<>(1);
+        var ll = new LinkedList<String>();
 
 
-        String[] item = new String[]{"A", "B", "C", "D", "E", "T", "F", "W"};
-        int[]    priorityValue = new int[]{3,4,3,2,1,10,9,11};
+        // ============ InsertFirst ===================
+        ll.insertFirst("John");
+        ll.insertFirst("Jack");
+        ll.insertFirst("Jones");
+        ll.insertFirst("Malcolm");
+        // Output: Head  -> Malcolm -> Jones -> Jack -> John
+        System.out.println(ll);
+        ll.display();
 
-        for (int i = 0; i < item.length; i++) {
-            queue.insert(item[i], priorityValue[i]);
-        }
+        // ============ InsertLast ===================
+        ll.insertLast("June");
+        ll.insertLast("Jasmine");
 
-//        // E, D, C, A, B, F
-//        for (int i = 0; i < item.length + 100; i++) {
-//            queue.peekRear();
-//            queue.peekFront();
-//            queue.remove();
-//            queue.peekFront();
-//            for (int j = 0; j < item.length; j++) {
-//                queue.insert(item[j], priorityValue[j]);
-//            }
-//        }
-        queue.display();
-        System.out.println(queue);
+        ll.display();
+        // Output: Head  -> Malcolm -> Jones -> Jack -> John -> June -> Jasmine
+
+        // ============ InsertAt ===================
+        ll.insertAt(0, "Cat");
+        ll.insertAt(6, "Cat");
+        ll.insertAt(4, "Cat");
 
 
+        ll.display();
+        // Output: Head  -> Cat -> Malcolm -> Jones -> Jack -> Cat -> John -> June -> Jasmine -> Cat
 
-//        queue.insert("Task3",3);
-//        queue.insert("Task2",2);
-//        queue.insert("Task1",1);
-//        queue.insert("Task4",4);
-//
-//        System.out.println(queue.peekRear());
-//
-//        queue.remove();
-//        System.out.println(queue.peekRear());
-//        queue.insert("Task 5", 5);
-//        queue.remove();
-//
-//        System.out.println(queue.peekRear());
-//
-//
-//
-//
-//        System.out.println(queue);
+
+        // ============ deleteFirst ===================
+        ll.deleteFirst();
+        ll.display();
+        System.out.println(ll); // Head: Malcolm, Tail: Cat
+        // Output: Head  -> Malcolm -> Jones -> Jack -> John -> June -> Jasmine -> Cat
+
+
+        // ============ deleteFirst ===================
+
+        ll.deleteLast();
+        ll.display();
+        System.out.println(ll); // Head: Malcolm, Tail: Jasmine
+        // Output: Head  -> Malcolm -> Jones -> Jack -> John -> June -> Jasmine
+
+        // ============ deleteAt ===================
+
+        ll.deleteAt(0); // First index
+        ll.deleteAt(5); // Last Index
+        ll.deleteAt(2); // In between first and last index
+
+        ll.display();
+        System.out.println(ll); // Head: Jones, Tail: June
+        // Output: Head  -> Jones -> Jack -> John -> June
+
+
+        // ============ Find ===================
+        System.out.println("\n============ Find ===================\n");
+        System.out.println(ll.find("Jones"));  // 0
+        System.out.println(ll.find("Jack"));   // 1
+        System.out.println(ll.find("John"));   // 2
+        System.out.println(ll.find("June"));   // 3
+
+        System.out.println(ll.find("Cat"));   // -1
+
+        // ============ deleteKey ===================
+        System.out.println("\n============ deleteKey ===================\n");
+        ll.deleteKey("Jones");
+        ll.deleteKey("Jack");
+        ll.deleteKey("John");
+        ll.deleteKey("June");
+
+        System.out.println(ll.deleteKey("Cat"));   // false
+
+        ll.display(); // Head ->
+        System.out.println(ll);  // Head: null, tail: null
+
+
+
 
 
 
