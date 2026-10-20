@@ -201,7 +201,12 @@ public class LinkedList<T> {
             }
             current = current.next;
         }
+        if (head != null && tail != null) {
+            sb.append("\nHead: ").append(head.data.toString()).append("\nTail: ").append(tail.data.toString());
+        } else {
+            sb.append("\nHead: null").append("\nTail: null ");
 
+        }
         return sb.toString();
     }
 
