@@ -70,16 +70,13 @@ public class LinkedList<T> {
     }
 
     public boolean deleteFirst() {
-        if (isEmpty()) return false;
-
-        if (head == tail) {
-            head = tail = null;
-            return true;
-        }
-
-        Link<T> removedLink = head;
+        if (head == null) return false;
         head = head.next;           // Get the next link of head then refer head to it
-        removedLink.next = null;
+
+        if (head == null) {
+            tail = null;
+        }
+        count--;
 
         return true;
     }
@@ -89,6 +86,8 @@ public class LinkedList<T> {
 
         if (tail == head) {
             head = tail = null;
+
+            count--;
             return true;
         }
 
@@ -100,54 +99,59 @@ public class LinkedList<T> {
         link.next = null;
         tail = link;
 
+        count--;
         return true;
     }
 
     public boolean deleteAt(int index) {
         if (isEmpty()) return false;
 
-        if (isEmpty()) {
-            throw new RuntimeException("Please insert an element first");
-        }
-
-        int size = size();
-        int maxIndex = size - 1;
+        int maxIndex = count - 1;
         if (index < 0 || index > maxIndex) {
-            throw new IndexOutOfBoundsException("Index must be in range of 0 to " + size);
+            throw new IndexOutOfBoundsException("Index must be in range of 0 to " + count);
         }
 
-        // Deleting at the beginning or at the end
+        // Deleting at the beginning
         if (index == 0) {
-            deleteFirst();
-            return true;
+            count--;
+            return deleteFirst();
         }
 
         // Deleting at the end
         if (index == maxIndex) {
-            deleteLast();
-            return true;
+            count--;
+            return deleteLast();
         }
 
         // Deleting at the middle
-        Link<T> link = head;
+        Link<T> current = head;
         for (int i = 1; i < index; i++) {
-            link = link.next; // Get the link before the removed link
+            current = current.next; // Get the link before the removed link
         }
 
-        Link<T> removedLink = link.next;
-        link.next = removedLink.next;
+        Link<T> removedLink = current.next;
+        current.next = removedLink.next;
         removedLink.next = null;
 
+        count--;
         return true;
     }
 
     public boolean deleteKey(T key) {
         Objects.requireNonNull(key);
-        if (isEmpty()) return false;
+        if (head == null) return false;
 
-        int index = find(key);
+        Link<T> current = head;
+        while (current != null) {
+            if (current.data.equals(key)) {
+                count--;
+                return true;
+            }
 
-        return index != -1 && deleteAt(index);
+            current = current.next;
+        }
+
+        return false;
     }
 
     public int find(T key) {
