@@ -26,11 +26,9 @@ public class LinkedList<T> {
 
         if (head == null) {
             head = newLink;
-            count++;
-            return;
+        } else {
+            tail.next = newLink;
         }
-
-        tail.next = newLink;
         tail = newLink;
         count++;
 
@@ -38,35 +36,31 @@ public class LinkedList<T> {
 
     public void insertAt(int index, T newItem) {
         Objects.requireNonNull(newItem);
-        int maxIndex = count - 1;
-
         // Inserting at the beginning or at the end
         if (index == 0) {
             insertFirst(newItem);
-            count++;
             return;
         }
 
         // Inserting at the end
-        if (index == maxIndex) {
+        if (index == count) {
             insertLast(newItem);
-            count++;
             return;
         }
 
-        if (index < 0 || index > maxIndex) {
-            throw new IndexOutOfBoundsException("Index must be in range of 0 to " + count);
+        if (index < 0 || index > count) {
+            throw new IndexOutOfBoundsException("Index must be in range of [ 0 to " + count + " ] ");
         }
 
         // Inserting at the middle
         Link<T> current = head;
-        for (int i = 1; i < index; i++) {
+        for (int i = 0; i < index - 1; i++) {
             current = current.next; // Get the link before the actual link at the index
         }
 
         current.next = new Link<>(newItem, current.next);
-        count++;
 
+        count++;
     }
 
     public boolean deleteFirst() {
@@ -82,7 +76,7 @@ public class LinkedList<T> {
     }
 
     public boolean deleteLast() {
-        if (isEmpty()) return false;
+        if (head == null) return false;
 
         if (tail == head) {
             head = tail = null;
@@ -95,7 +89,6 @@ public class LinkedList<T> {
         while (current.next != tail) {
             current = current.next;
         }
-
         current.next = null;
         tail = current;
 
@@ -104,28 +97,20 @@ public class LinkedList<T> {
     }
 
     public boolean deleteAt(int index) {
-        if (isEmpty()) return false;
-
-        int maxIndex = count - 1;
-        if (index < 0 || index > maxIndex) {
-            throw new IndexOutOfBoundsException("Index must be in range of 0 to " + count);
-        }
-
         // Deleting at the beginning
-        if (index == 0) {
-            count--;
-            return deleteFirst();
-        }
+        if (index == 0) return deleteFirst();
 
         // Deleting at the end
-        if (index == maxIndex) {
-            count--;
-            return deleteLast();
+        if (index == count)  return deleteLast();
+
+        if (index < 0 || index > count) {
+            throw new IndexOutOfBoundsException("Index must be in range of [ 0 to " + count + " ] ");
         }
+
 
         // Deleting at the middle
         Link<T> current = head;
-        for (int i = 1; i < index; i++) {
+        for (int i = 0; i < index - 1; i++) {
             current = current.next; // Get the link before the removed link
         }
 
@@ -141,10 +126,16 @@ public class LinkedList<T> {
         Objects.requireNonNull(key);
         if (head == null) return false;
 
+        Link<T> previous = null;
         Link<T> current = head;
-        while (current != null) {
+
+        for (int i = 0; current != null; i++) {
+
             if (current.data.equals(key)) {
-                count--;
+                if (i == 0) return deleteFirst();
+                if (i == count - 1) return deleteLast();
+
+                deleteAt(i);
                 return true;
             }
 
