@@ -91,9 +91,9 @@ public class LinkedList<T> {
             return true;
         }
 
-        Link<T> link = head;  // Traversing head to get the second last link from tail
-        while (link.next != tail) {
-            link = link.next;
+        Link<T> current = head;  // Traversing head to get the second last link from tail
+        while (current.next != tail) {
+            current = current.next;
         }
 
         link.next = null;
