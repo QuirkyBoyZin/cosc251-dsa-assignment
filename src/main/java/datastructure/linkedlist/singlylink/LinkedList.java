@@ -96,8 +96,8 @@ public class LinkedList<T> {
             current = current.next;
         }
 
-        link.next = null;
-        tail = link;
+        current.next = null;
+        tail = current;
 
         count--;
         return true;
@@ -164,7 +164,6 @@ public class LinkedList<T> {
             current = current.next;
         }
 
-
         return -1;
     }
 
@@ -194,7 +193,7 @@ public class LinkedList<T> {
         Link<T> current = head;          // Start traversing from the head
         StringBuilder sb = new StringBuilder();
 
-        for (int i = 0; current != null; i++) {
+        while (current != null) {
             if (current.next != null) {
                 System.out.print(current.data + " -> ");
             } else {
@@ -206,16 +205,5 @@ public class LinkedList<T> {
         return sb.toString();
     }
 
-    private int size() {
-        Link<T> link = head;          // Start traversing from the head
-        int size = 0;
-
-        while (link != null) {
-            size++;
-            link = link.next;
-        }
-
-        return size;
-    }
 
 }
