@@ -3,14 +3,7 @@ import java.util.Objects;
 
 public class LinkedList<T> {
     private Link<T> head, tail;
-
-    public Link<T> getHead() {
-        return head;
-    }
-
-    public Link<T> getTail() {
-        return tail;
-    }
+    private int count;
 
     public LinkedList() {
     }
@@ -18,66 +11,61 @@ public class LinkedList<T> {
     public void insertFirst(T newItem) {
         Objects.requireNonNull(newItem);
 
-        if (isEmpty()) {
-            head = new Link<>(newItem, null);
+        head = new Link<>(newItem, head);   // head points to new Link, New link point to head's previous link
+        if (tail == null) {
             tail = head;  // tail only change here initially
-            return;
         }
 
-        // Not empty
-        head = new Link<>(newItem, head);   // head points to new Link, New link point to head's previous link
+        count++;
 
     }
 
     public void insertLast(T newItem) {
         Objects.requireNonNull(newItem);
+        Link<T> newLink = new Link<>(newItem, null);
 
-        if (isEmpty()) {
-            head = new Link<>(newItem, null);
-            tail = head;  // tail only change here initially
+        if (head == null) {
+            head = newLink;
+            count++;
             return;
         }
 
-        // Not empty
-        Link<T> link = new Link<>(newItem, null);
-        tail.next = link;
-        tail = link;
+        tail.next = newLink;
+        tail = newLink;
+        count++;
 
     }
 
     public void insertAt(int index, T newItem) {
-        if (isEmpty()) {
-            throw new RuntimeException("Please insert an element first");
-        }
-
         Objects.requireNonNull(newItem);
-
-        int size = size();
-        int maxIndex = size - 1;
-        if (index < 0 || index > maxIndex) {
-            throw new IndexOutOfBoundsException("Index must be in range of 0 to " + size);
-        }
+        int maxIndex = count - 1;
 
         // Inserting at the beginning or at the end
         if (index == 0) {
             insertFirst(newItem);
+            count++;
             return;
         }
 
         // Inserting at the end
         if (index == maxIndex) {
             insertLast(newItem);
+            count++;
             return;
         }
 
-        // Inserting at the middle
-        Link<T> link = head;
-        for (int i = 1; i < index; i++) {
-            link = link.next; // Get the link before the actual link at the index
+        if (index < 0 || index > maxIndex) {
+            throw new IndexOutOfBoundsException("Index must be in range of 0 to " + count);
         }
 
-        link.next  = new Link<>(newItem, link.next);
+        // Inserting at the middle
+        Link<T> current = head;
+        for (int i = 1; i < index; i++) {
+            current = current.next; // Get the link before the actual link at the index
+        }
 
+        current.next = new Link<>(newItem, current.next);
+        count++;
 
     }
 
