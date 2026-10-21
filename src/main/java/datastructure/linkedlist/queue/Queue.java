@@ -47,6 +47,6 @@ public class Queue<T> {
     public void display() {
         System.out.print("Front [");
         System.out.print(queue);
-        System.out.print("] Rear");
+        System.out.println("] Rear");
     }
 }
