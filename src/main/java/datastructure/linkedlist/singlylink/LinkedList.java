@@ -16,14 +16,12 @@ public class LinkedList<T> {
 
     // Time Complexity: O(1)
     public T peekFirst() {
-        if (head == null) return null;
-        return head.data;
+        return head == null ? null : head.data;
     }
 
     // Time Complexity: O(1)
     public T peekLast() {
-        if (tail == null) return null;
-        return tail.data;
+        return tail == null ? null : tail.data;
     }
 
     // Time Complexity: O(1)
@@ -70,7 +68,8 @@ public class LinkedList<T> {
         // Must account for the fact that we can insert at the end of the list (index == count)
         // Remember that count - 1 == index is the last element
         // So count == index is a valid position to insert
-        if (index < 0 || index > count) throw new IndexOutOfBoundsException("Index out of bounds. Valid range: 0 to " + count);
+        if (index < 0 || index > count)
+            throw new IndexOutOfBoundsException("Index out of bounds. Valid range: 0 to " + count);
 
         if (index == 0) {
             insertFirst(newItem);

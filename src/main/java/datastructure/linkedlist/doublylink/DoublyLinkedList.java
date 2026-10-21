@@ -33,14 +33,12 @@ public class DoublyLinkedList<T> {
 
     // Time Complexity: O(1)
     public T peekFirst() {
-        if (head == null) return null;
-        return head.data;
+        return head == null ? null : head.data;
     }
 
     // Time Complexity: O(1)
     public T peekLast() {
-        if (tail == null) return null;
-        return tail.data;
+        return tail == null ? null : tail.data;
     }
 
     // Time Complexity: O(1)
