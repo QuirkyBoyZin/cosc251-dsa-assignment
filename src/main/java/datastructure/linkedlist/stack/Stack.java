@@ -8,6 +8,7 @@ import java.util.Objects;
 public class Stack<T> {
     private final LinkedList<T> stack;
 
+    // Time complexity: O(1)
     public Stack() {
         this.stack = new LinkedList<>();
     }

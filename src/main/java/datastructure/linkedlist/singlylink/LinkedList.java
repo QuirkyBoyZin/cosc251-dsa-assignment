@@ -7,17 +7,20 @@ public class LinkedList<T> {
     private Link<T> tail;
     private int count;
 
+    // Time Complexity: O(1)
     public LinkedList() {
         this.head = null;
         this.tail = null;
         this.count = 0;
     }
 
+    // Time Complexity: O(1)
     public T peekFirst() {
         if (head == null) return null;
         return head.data;
     }
 
+    // Time Complexity: O(1)
     public T peekLast() {
         if (tail == null) return null;
         return tail.data;
@@ -28,6 +31,7 @@ public class LinkedList<T> {
         return head == null && tail == null;
     }
 
+    // Time Complexity: O(1)
     public int size() {
         return count;
     }

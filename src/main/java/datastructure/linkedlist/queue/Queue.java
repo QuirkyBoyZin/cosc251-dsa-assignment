@@ -7,6 +7,7 @@ import java.util.Objects;
 public class Queue<T> {
     private final LinkedList<T> queue;
 
+    // Time Complexity: O(1)
     public Queue() {
         queue = new LinkedList<>();
     }

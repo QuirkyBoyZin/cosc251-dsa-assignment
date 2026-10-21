@@ -7,12 +7,14 @@ public class DoublyLinkedList<T> {
     private DoublyLink<T> head;
     private DoublyLink<T> tail;
 
+    // Time Complexity: O(1)
     public DoublyLinkedList() {
         this.count = 0;
         this.head = null;
         this.tail = null;
     }
 
+    // Time Complexity: O(N) where N is the number of elements in the list
     private DoublyLink<T> traverseByIndex(int index) {
         DoublyLink<T> current;
         if (index < count / 2) {
@@ -29,11 +31,13 @@ public class DoublyLinkedList<T> {
         return current;
     }
 
+    // Time Complexity: O(1)
     public T peekFirst() {
         if (head == null) return null;
         return head.data;
     }
 
+    // Time Complexity: O(1)
     public T peekLast() {
         if (tail == null) return null;
         return tail.data;
@@ -44,6 +48,7 @@ public class DoublyLinkedList<T> {
         return head == null && tail == null;
     }
 
+    // Time Complexity: O(1)
     public int size() {
         return count;
     }
