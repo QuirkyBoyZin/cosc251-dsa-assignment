@@ -1,5 +1,4 @@
-import datastructure.PriorityQueue;
-import datastructure.Queue;
+import datastructure.queue.PriorityQueue;
 
 public class Main {
     public static void main(String[] args) {
