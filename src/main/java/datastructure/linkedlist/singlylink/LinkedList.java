@@ -194,30 +194,36 @@ public class LinkedList<T> {
     // O(N) where N is the number of elements in the list
     @Override
     public String toString() {
+        if (head == null) return "";
+
         StringBuilder sb = new StringBuilder();
         Link<T> current = head;
-        while (current != null) {
-            sb.append(current.data);
-            if (current.next != null) {
-                sb.append(" -> ");
-            }
+
+        while (current.next != null) {
+            sb.append(current.data).append(" -> ");
             current = current.next;
         }
-        return sb.toString();
+
+        return sb.append(current.data).toString();
     }
 
     // O(N) where N is the number of elements in the list
     public void display() {
+        if (head == null) {
+            System.out.println("LinkedList: Head [] Tail");
+            return;
+        }
+
+        // Using StringBuilder here to avoid repeated access to IO device
+        StringBuilder sb = new StringBuilder("LinkedList: Head [");
         Link<T> current = head;
-        System.out.print("LinkedList: Head [");
-        while (current != null) {
-            if (current.next == null) {
-                System.out.print(current.data);
-            } else {
-                System.out.print(current.data + " -> ");
-            }
+
+        while (current.next != null) {
+            sb.append(current.data).append(" -> ");
             current = current.next;
         }
-        System.out.println("] Tail");
+
+        sb.append(current.data).append("] Tail");
+        System.out.println(sb);
     }
 }

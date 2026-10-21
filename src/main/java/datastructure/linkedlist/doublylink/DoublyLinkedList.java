@@ -215,46 +215,55 @@ public class DoublyLinkedList<T> {
     // O(N) where N is the number of elements in the list
     @Override
     public String toString() {
+        if (head == null) return "";
+
         StringBuilder sb = new StringBuilder();
         DoublyLink<T> current = head;
-        while (current != null) {
-            if (current.next == null) {
-                sb.append(current.data);
-            } else {
-                sb.append(current.data).append(" <-> ");
-            }
+
+        while (current.next != null) {
+            sb.append(current.data).append(" <-> ");
             current = current.next;
         }
-        return sb.toString();
+
+        return sb.append(current.data).toString();
     }
 
-    // O(N) where N is the number of elements in the list
+    // Time Complexity: O(N) where N is the number of elements in the list
     public void displayForward() {
+        if (head == null) {
+            System.out.println("Displaying forward: Head [] Tail");
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder("Displaying forward: Head [");
         DoublyLink<T> current = head;
-        System.out.print("Displaying forward: Head [");
-        while (current != null) {
-            if (current.next != null) {
-                System.out.print(current.data + " <-> ");
-            } else {
-                System.out.print(current.data);
-            }
+
+        while (current.next != null) {
+            sb.append(current.data).append(" <-> ");
             current = current.next;
         }
-        System.out.println("] Tail");
+
+        sb.append(current.data).append("] Tail");
+        System.out.println(sb);
     }
 
-    // O(N) where N is the number of elements in the list
+    // Time Complexity: O(N) where N is the number of elements in the list
     public void displayBackward() {
+        if (tail == null) {
+            System.out.println("Displaying backward: Tail [] Head");
+            return;
+        }
+
+        // Using StringBuilder here to avoid repeated access to IO device
+        StringBuilder sb = new StringBuilder("Displaying backward: Tail [");
         DoublyLink<T> current = tail;
-        System.out.print("Displaying backward: Tail [");
-        while (current != null) {
-            if (current.previous != null) {
-                System.out.print(current.data + " <-> ");
-            } else {
-                System.out.print(current.data);
-            }
+
+        while (current.previous != null) {
+            sb.append(current.data).append(" <-> ");
             current = current.previous;
         }
-        System.out.println("] Head");
+
+        sb.append(current.data).append("] Head");
+        System.out.println(sb);
     }
 }
