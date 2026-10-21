@@ -15,7 +15,7 @@ public class Stack<T> {
 
     // Time complexity: O(1)
     public void push(T newItem) {
-        Objects.requireNonNull(newItem, "New item must not be null");
+        Objects.requireNonNull(newItem, "New item to be added to the stack must not be null");
 
         stack.insertFirst(newItem);
 

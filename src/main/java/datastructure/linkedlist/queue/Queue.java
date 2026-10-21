@@ -14,7 +14,7 @@ public class Queue<T> {
 
     // Time Complexity: O(1)
     public void insert(T newItem) {
-        Objects.requireNonNull(newItem, "New item must not be null");
+        Objects.requireNonNull(newItem, "New item to be enqueued to the queue must not be null");
 
         queue.insertLast(newItem);
     }
