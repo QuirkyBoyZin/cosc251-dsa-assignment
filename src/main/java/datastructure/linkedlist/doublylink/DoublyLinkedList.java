@@ -1,12 +1,17 @@
 package datastructure.linkedlist.doublylink;
 
-
 import java.util.Objects;
 
 public class DoublyLinkedList<T> {
     private int count;
     private DoublyLink<T> head;
     private DoublyLink<T> tail;
+
+    public DoublyLinkedList() {
+        this.count = 0;
+        this.head = null;
+        this.tail = null;
+    }
 
     private DoublyLink<T> traverseByIndex(int index) {
         DoublyLink<T> current;
@@ -24,27 +29,38 @@ public class DoublyLinkedList<T> {
         return current;
     }
 
-    public DoublyLinkedList() {
-        this.count = 0;
-        this.head = null;
-        this.tail = null;
+    public T peekFirst() {
+        if (head == null) return null;
+        return head.data;
+    }
+
+    public T peekLast() {
+        if (tail == null) return null;
+        return tail.data;
+    }
+
+    // Time Complexity: O(1)
+    public boolean isEmpty() {
+        return head == null && tail == null;
+    }
+
+    public int size() {
+        return count;
     }
 
     // Time Complexity: O(1)
     public void insertFirst(T newItem) {
         Objects.requireNonNull(newItem, "Item must not be null");
 
-        DoublyLink<T> newLink = new DoublyLink<>(newItem);
+        DoublyLink<T> newLink = new DoublyLink<>(newItem, head, null);
 
         if (head == null) {
             tail = newLink;
         } else {
-            newLink.next = head;
             head.previous = newLink;
         }
 
         head = newLink;
-
         count++;
     }
 
@@ -52,17 +68,15 @@ public class DoublyLinkedList<T> {
     public void insertLast(T newItem) {
         Objects.requireNonNull(newItem, "Item must not be null");
 
-        DoublyLink<T> newLink = new DoublyLink<>(newItem);
+        DoublyLink<T> newLink = new DoublyLink<>(newItem, null, tail);
 
         if (tail == null) {
             head = newLink;
         } else {
             tail.next = newLink;
-            newLink.previous = tail;
         }
 
         tail = newLink;
-
         count++;
     }
 
@@ -90,12 +104,9 @@ public class DoublyLinkedList<T> {
             return;
         }
 
-        DoublyLink<T> newLink = new DoublyLink<>(newItem);
-
         DoublyLink<T> current = traverseByIndex(index);
 
-        newLink.next = current;
-        newLink.previous = current.previous;
+        DoublyLink<T> newLink = new DoublyLink<>(newItem, current, current.previous);
 
         current.previous.next = newLink;
         current.previous = newLink;
@@ -107,6 +118,7 @@ public class DoublyLinkedList<T> {
     public boolean deleteFirst() {
         if (head == null) return false;
 
+        DoublyLink<T> removedLink = head;
         head = head.next;
 
         if (head == null) {
@@ -115,8 +127,8 @@ public class DoublyLinkedList<T> {
             head.previous = null;
         }
 
+        removedLink.next = null;
         count--;
-
         return true;
     }
 
@@ -124,6 +136,7 @@ public class DoublyLinkedList<T> {
     public boolean deleteLast() {
         if (head == null) return false;
 
+        DoublyLink<T> removedLink = tail;
         tail = tail.previous;
 
         if (tail == null) {
@@ -132,15 +145,13 @@ public class DoublyLinkedList<T> {
             tail.next = null;
         }
 
+        removedLink.previous = null;
         count--;
-
         return true;
     }
 
     // Time Complexity: O(N) where N is the number of elements in the list
     public boolean deleteAt(int index) {
-        // Must account for able to delete at the last count only.
-        // Cannot delete at count
         if (index < 0 || index >= count) {
             return false;
         }
@@ -148,13 +159,15 @@ public class DoublyLinkedList<T> {
         if (index == 0) return deleteFirst();
         if (index == count - 1) return deleteLast();
 
-        DoublyLink<T> current = traverseByIndex(index);
+        DoublyLink<T> removedLink = traverseByIndex(index);
 
-        current.next.previous = current.previous;
-        current.previous.next = current.next;
+        removedLink.previous.next = removedLink.next;
+        removedLink.next.previous = removedLink.previous;
+
+        removedLink.next = null;
+        removedLink.previous = null;
 
         count--;
-
         return true;
     }
 
@@ -174,8 +187,11 @@ public class DoublyLinkedList<T> {
         if (current == head) return deleteFirst();
         if (current == tail) return deleteLast();
 
-        current.next.previous = current.previous;
         current.previous.next = current.next;
+        current.next.previous = current.previous;
+
+        current.next = null;
+        current.previous = null;
 
         count--;
         return true;
@@ -183,23 +199,17 @@ public class DoublyLinkedList<T> {
 
     // Time Complexity: O(N) where N is the number of elements in the list
     public int find(T key) {
+        Objects.requireNonNull(key, "Key must not be null");
+
         DoublyLink<T> current = head;
-
         for (int i = 0; current != null; i++) {
-
             if (current.data.equals(key)) return i;
-
             current = current.next;
         }
         return -1;
     }
 
-    // Time Complexity: O(1)
-    public boolean isEmpty() {
-        return head == null || tail == null;
-    }
-
-    // Time Complexity: O(n) where n is the number of elements in the list
+    // O(N) where N is the number of elements in the list
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -212,10 +222,10 @@ public class DoublyLinkedList<T> {
             }
             current = current.next;
         }
-        return sb.toString().trim();
+        return sb.toString();
     }
 
-    // Time Complexity: O(n) where n is the number of elements in the list
+    // O(N) where N is the number of elements in the list
     public void displayForward() {
         DoublyLink<T> current = head;
         System.out.print("Displaying forward: Head [");
@@ -227,11 +237,10 @@ public class DoublyLinkedList<T> {
             }
             current = current.next;
         }
-
         System.out.println("] Tail");
     }
 
-    // Time Complexity: O(n) where n is the number of elements in the list
+    // O(N) where N is the number of elements in the list
     public void displayBackward() {
         DoublyLink<T> current = tail;
         System.out.print("Displaying backward: Tail [");
@@ -243,7 +252,6 @@ public class DoublyLinkedList<T> {
             }
             current = current.previous;
         }
-
         System.out.println("] Head");
     }
 }

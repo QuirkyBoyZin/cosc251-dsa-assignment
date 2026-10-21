@@ -1,6 +1,5 @@
 package datastructure.linkedlist.singlylink;
 
-
 import java.util.Objects;
 
 public class LinkedList<T> {
@@ -11,6 +10,7 @@ public class LinkedList<T> {
     public LinkedList() {
         this.head = null;
         this.tail = null;
+        this.count = 0;
     }
 
     public T peekFirst() {
@@ -25,21 +25,22 @@ public class LinkedList<T> {
 
     // Time Complexity: O(1)
     public boolean isEmpty() {
-        return head == null || tail == null;
+        return head == null && tail == null;
+    }
+
+    public int size() {
+        return count;
     }
 
     // Time Complexity: O(1)
     public void insertFirst(T newItem) {
         Objects.requireNonNull(newItem, "Item must not be null");
 
-        Link<T> newLink = new Link<>(newItem);
+        head = new Link<>(newItem, head);
 
-        if (head == null) {
-            tail = newLink;
-        } else {
-            newLink.next = head;
+        if (tail == null) {
+            tail = head;
         }
-        head = newLink;
         count++;
     }
 
@@ -58,39 +59,20 @@ public class LinkedList<T> {
         count++;
     }
 
-    // Time Complexity: O(N) where N is the number of elements in the list
-    public int find(T key) {
-        Objects.requireNonNull(key, "Key must not be null");
-
-        Link<T> current = head;
-        for (int i = 0; current != null; i++) {
-            if (current.data.equals(key)) return i;
-
-            current = current.next;
-        }
-        return -1;
-    }
-
-    // Time Complexity: O(N) where N is the number of elements in the list
+    // Time Complexity: O(N)
     public void insertAt(int index, T newItem) {
         Objects.requireNonNull(newItem, "Item must not be null");
 
         // Must account for the fact that we can insert at the end of the list (index == count)
         // Remember that count - 1 == index is the last element
         // So count == index is a valid position to insert
+        if (index < 0 || index > count) throw new IndexOutOfBoundsException("Index out of bounds. Valid range: 0 to " + count);
 
-        // count == 5;
-        // index == 5; // valid position to insert at the end of the list
-        if (index < 0 || count < index)
-            throw new IndexOutOfBoundsException("Index out of bounds. Valid range: 0 to " + count);
-
-        // If index is 0, it means we want to insert at the beginning of the list
         if (index == 0) {
             insertFirst(newItem);
             return;
         }
 
-        // If index is equal to count, it means we want to insert at the end of the list
         if (index == count) {
             insertLast(newItem);
             return;
@@ -101,18 +83,18 @@ public class LinkedList<T> {
             current = current.next;
         }
 
-        Link<T> newLink = new Link<>(newItem);
-        newLink.next = current.next;
-        current.next = newLink;
-
+        current.next = new Link<>(newItem, current.next);
         count++;
-
     }
 
     // Time Complexity: O(1)
     public boolean deleteFirst() {
         if (head == null) return false;
+
+        Link<T> removedLink = head;
         head = head.next;
+
+        removedLink.next = null;
 
         if (head == null) {
             tail = null;
@@ -122,7 +104,7 @@ public class LinkedList<T> {
         return true;
     }
 
-    // Time Complexity: O(N) where N is the number of elements in the list
+    // Time Complexity: O(N)
     public boolean deleteLast() {
         if (head == null) return false;
 
@@ -139,42 +121,35 @@ public class LinkedList<T> {
             current = current.next;
         }
 
-        current.next = null;
         tail = current;
-
+        tail.next = null;
 
         return true;
     }
 
-    // Time Complexity: O(N) where N is the number of elements in the list
+    // Time Complexity: O(N)
     public boolean deleteAt(int index) {
-        // Must account for the fact that we can delete at the end of the list (index == count - 1)
         if (index < 0 || index >= count) {
             return false;
         }
 
-        if (head == null) return false;
-
-        if (index == 0) {
-            return deleteFirst();
-        }
-
-        if (index == count - 1) {
-            return deleteLast();
-        }
+        if (index == 0) return deleteFirst();
+        if (index == count - 1) return deleteLast();
 
         Link<T> current = head;
         for (int i = 0; i < index - 1; i++) {
             current = current.next;
         }
 
-        current.next = current.next.next;
-        count--;
+        Link<T> removedLink = current.next;
+        current.next = removedLink.next;
+        removedLink.next = null;
 
+        count--;
         return true;
     }
 
-    // Time Complexity: O(N) where N is the number of elements in the list
+    // Time Complexity: O(N)
     public boolean deleteKey(T key) {
         Objects.requireNonNull(key, "Key must not be null");
 
@@ -195,12 +170,25 @@ public class LinkedList<T> {
 
         previous.next = current.next;
 
-        count--;
+        current.next = null;
 
+        count--;
         return true;
     }
 
-    // Time Complexity: O(N) where N is the number of elements in the list
+    // Time Complexity: O(N)
+    public int find(T key) {
+        Objects.requireNonNull(key, "Key must not be null");
+
+        Link<T> current = head;
+        for (int i = 0; current != null; i++) {
+            if (current.data.equals(key)) return i;
+            current = current.next;
+        }
+        return -1;
+    }
+
+    // O(N) where N is the number of elements in the list
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -215,7 +203,7 @@ public class LinkedList<T> {
         return sb.toString();
     }
 
-    // Time Complexity: O(N) where N is the number of elements in the list
+    // O(N) where N is the number of elements in the list
     public void display() {
         Link<T> current = head;
         System.out.print("LinkedList: Head [");
@@ -227,7 +215,6 @@ public class LinkedList<T> {
             }
             current = current.next;
         }
-
         System.out.println("] Tail");
     }
 }

@@ -5,7 +5,11 @@ class Link<T> {
     Link<T> next;
 
     Link(T data) {
+        this(data, null);
+    }
+
+    Link(T data, Link<T> next) {
         this.data = data;
-        this.next = null;
+        this.next = next;
     }
 }
