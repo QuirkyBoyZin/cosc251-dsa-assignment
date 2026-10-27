@@ -1,4 +1,4 @@
-package datastructure;
+package datastructure.stack;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -52,7 +52,7 @@ public class Stack <T>{
     // over the array to convert every element into a String
     @Override
     public String toString() {
-        return "datastructure.Stack{" +
+        return "datastructure.stack.Stack{" +
                 "top=" + top +
                 ", elements=" + Arrays.toString(elements) +
                 '}';
