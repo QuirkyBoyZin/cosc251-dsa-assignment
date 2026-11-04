@@ -10,7 +10,7 @@ public class RecursiveSolution {
      * @return the sum of all non-negative integers up to n
      */
     public static int tri(int n) {
-        if (n <= 0) throw new IllegalArgumentException("Input must be a positive integer.");
+        if (n < 0) throw new IllegalArgumentException("Input must be a non-negative integer.");
 
         if (n == 1) {
             return 1;
