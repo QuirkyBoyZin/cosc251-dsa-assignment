@@ -1,5 +1,7 @@
 package datastructure.recursion;
 
+import java.util.Objects;
+
 public class IterativeSolution {
 
     /**
@@ -9,7 +11,16 @@ public class IterativeSolution {
      * @return the sum of all non-negative integers up to n
      */
     public static int tri(int n) {
-        return 0;
+        if (n < 0) {
+            throw new IllegalArgumentException("Input must be a non-negative integer.");
+        }
+
+        int result = 0;
+
+        for (int i = 0; i <= n; i++) {
+            result += i;
+        }
+        return result;
     }
 
     /**
@@ -19,7 +30,17 @@ public class IterativeSolution {
      * @return the multiplication of all non-negative integers up to n
      */
     public static int fact(int n) {
-        return 0;
+        if (n < 0) {
+            throw new IllegalArgumentException("Input must be a non-negative integer.");
+        }
+
+        int result = 1;
+
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+
+        return result;
     }
 
     /**
@@ -31,7 +52,21 @@ public class IterativeSolution {
      * @return the nth Fibonacci number
      */
     public static int fib(int n) {
-        return 0;
+        if (n < 0) throw new IllegalArgumentException("Input must be a non-negative integer.");
+
+        int x0 = 0;
+        int x1 = 1;
+        int result = 0;
+
+        for (int i = 1; i < n; i++) {
+            result = x1 + x0;
+            x0 = x1;
+            x1 = result;
+        }
+
+        return result;
+
+
     }
 
     /**
@@ -41,7 +76,14 @@ public class IterativeSolution {
      * @return the reversed string
      */
     public static String reverseStr(String str) {
-        return "";
+        Objects.requireNonNull(str, "Input string cannot be null.");
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = str.length() - 1; i >= 0; i--) {
+            sb.append(str.charAt(i));
+        }
+
+        return sb.toString();
     }
 
     /**
@@ -52,7 +94,14 @@ public class IterativeSolution {
      * @return true if the character exists in the string, false otherwise
      */
     public static boolean hasChar(String str, char c) {
-        return true;
+        Objects.requireNonNull(str, "Input string cannot be null.");
+
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == c) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -63,7 +112,18 @@ public class IterativeSolution {
      * @return the greatest common divisor of x1 and x2
      */
     public static int gcd(int x1, int x2) {
-        return 0;
+        if (x1 < 0 || x2 < 0) {
+            throw new IllegalArgumentException("Inputs must be non-negative integers.");
+        }
+
+        int remainder = x1 % x2;
+        while (remainder != 0) {
+            x1 = x2;
+            x2 = remainder;
+            remainder = x1 % x2;
+        }
+
+        return x1;
     }
 
     /**
