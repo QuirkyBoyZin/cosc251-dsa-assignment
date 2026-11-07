@@ -101,6 +101,8 @@ public class RecursiveSolution {
         }
 
         return gcd(x2, remainder);
+        return gcd(x2, x1 % x2);
+    }
     }
 
     /**
