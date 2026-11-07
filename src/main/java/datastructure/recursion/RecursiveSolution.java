@@ -96,9 +96,7 @@ public class RecursiveSolution {
             throw new IllegalArgumentException("Inputs must be non-negative integers.");
         }
 
-        int remainder = x1 % x2;
-
-        if (remainder == 0) {
+        if (x2 == 0) {
             return x1;
         }
 
@@ -116,6 +114,13 @@ public class RecursiveSolution {
      */
     public static int countUniquePaths(int n, int m) {
         return 0;
+    }
+
+    public static void main(String[] args) {
+        int a = 48;
+        int b = 18;
+        System.out.println("GCD of " + a + " and " + b + ": " + gcd(a, b));
+        System.out.println("GCD of " + a + " and " + b + " (Brute Force): " + gcdBrute(a, b));
     }
 
 }
