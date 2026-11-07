@@ -116,11 +116,10 @@ public class IterativeSolution {
             throw new IllegalArgumentException("Inputs must be non-negative integers.");
         }
 
-        int remainder = x1 % x2;
-        while (remainder != 0) {
+        while (x2 != 0) {
+            int remainder = x1 % x2;
             x1 = x2;
             x2 = remainder;
-            remainder = x1 % x2;
         }
 
         return x1;
