@@ -102,6 +102,16 @@ public class RecursiveSolution {
 
         return gcd(x2, x1 % x2);
     }
+
+    private static int countUniquePathsHelper(int n, int m, int[][] mem) {
+        if (n == 1 || m == 1) return 1;
+
+        if (mem[n - 1][m - 1] != 0) return mem[n - 1][m - 1];
+
+        mem[n - 1][m - 1] = countUniquePathsHelper(n - 1, m, mem) + countUniquePathsHelper(n, m - 1, mem);
+
+        return mem[n - 1][m - 1];
+
     }
 
     /**
@@ -114,14 +124,8 @@ public class RecursiveSolution {
      * @return the number of unique paths
      */
     public static int countUniquePaths(int n, int m) {
-        return 0;
+        if (n <= 0 || m <= 0) return 0;
+        int[][] mem = new int[n][m];
+        return countUniquePathsHelper(n, m, mem);
     }
-
-    public static void main(String[] args) {
-        int a = 48;
-        int b = 18;
-        System.out.println("GCD of " + a + " and " + b + ": " + gcd(a, b));
-        System.out.println("GCD of " + a + " and " + b + " (Brute Force): " + gcdBrute(a, b));
-    }
-
 }
