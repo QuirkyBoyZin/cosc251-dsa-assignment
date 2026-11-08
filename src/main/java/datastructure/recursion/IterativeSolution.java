@@ -135,8 +135,19 @@ public class IterativeSolution {
      * @return the number of unique paths
      */
     public static int countUniquePaths(int n, int m) {
-        return 0;
+        if (n <= 0 || m <= 0) return 0;
+
+        int[][] table = new int[n][m];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (i == 0 || j == 0) {
+                    table[i][j] = 1;
+                } else {
+                    table[i][j] = table[i - 1][j] + table[i][j - 1];
+                }
+            }
+        }
+        return table[n - 1][m - 1];
     }
-
-
 }
