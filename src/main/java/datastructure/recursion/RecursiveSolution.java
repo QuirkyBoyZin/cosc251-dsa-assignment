@@ -1,5 +1,7 @@
 package datastructure.recursion;
 
+import java.util.Objects;
+
 public class RecursiveSolution {
     /**
      * Calculates the sum of all non-negative integers up to n.
@@ -8,7 +10,11 @@ public class RecursiveSolution {
      * @return the sum of all non-negative integers up to n
      */
     public static int tri(int n) {
-        return 0;
+        if (n < 0) throw new IllegalArgumentException("Enter a non-negative integer");
+        if (n == 0) return 0;
+
+        return (n == 1) ? 1 : n + tri(n - 1);
+
     }
 
     /**
@@ -18,7 +24,10 @@ public class RecursiveSolution {
      * @return the multiplication of all non-negative integers up to n
      */
     public static int fact(int n) {
-        return 0;
+        if (n < 0) throw new IllegalArgumentException("Enter a non-negative integer");
+
+        return (n == 0)? 1: n * fact(n - 1);
+
     }
 
     /**
@@ -30,7 +39,16 @@ public class RecursiveSolution {
      * @return the nth Fibonacci number
      */
     public static int fib(int n) {
-        return 0;
+        if (n < 0) throw new IllegalArgumentException("Enter a non-negative integer");
+
+        if (n == 0) {
+            return 0;
+        } else if (n == 1) {
+            return 1;
+        }
+
+        return fib(n - 1) + fib(n - 2);
+
     }
 
     /**
@@ -40,7 +58,11 @@ public class RecursiveSolution {
      * @return the reversed string
      */
     public static String reverseStr(String str) {
-        return "";
+        Objects.requireNonNull(str, "Input must be a String!");
+            if (str.isEmpty()) return str;
+
+        return str.charAt(str.length() - 1) + reverseStr(str.substring(0, str.length() - 1));
+
     }
 
     /**
@@ -51,7 +73,12 @@ public class RecursiveSolution {
      * @return true if the character exists in the string, false otherwise
      */
     public static boolean hasChar(String str, char c) {
-        return true;
+        Objects.requireNonNull(str);
+
+        if (str.isEmpty()) return false;
+
+        return str.charAt(str.length() - 1) == c || hasChar(str.substring(0, str.length() - 1), c);
+
     }
 
     /**
@@ -62,8 +89,19 @@ public class RecursiveSolution {
      * @return the greatest common divisor of x1 and x2
      */
     public static int gcd(int x1, int x2) {
-        return 0;
+        if (x1 < 0 || x2 < 0) {
+            throw new IllegalArgumentException("x1 and x2 must be non-negative Integers!");
+        }
+
+        if (x2 == 0) return x1;
+        if (x1 == 0) return x2;
+
+        if (x1 % x2 == 0) return x2;
+
+        return gcd(x2, x1 % x2);
+
     }
+
 
     /**
      * Calculates the number of unique paths from the top left corner to
@@ -75,7 +113,11 @@ public class RecursiveSolution {
      * @return the number of unique paths
      */
     public static int countUniquePaths(int n, int m) {
-        return 0;
+
+        if (n == 1 || m == 1) return 1;
+
+        return countUniquePaths(n, m - 1) + countUniquePaths(n - 1, m);
+
     }
 
 }
