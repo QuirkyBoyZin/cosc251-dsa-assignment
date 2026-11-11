@@ -26,7 +26,7 @@ public class RecursiveSolution {
     public static int fact(int n) {
         if (n < 0) throw new IllegalArgumentException("Enter a non-negative integer");
 
-        return (n == 0)? 1: n * fact(n - 1);
+        return (n == 0) ? 1 : n * fact(n - 1);
 
     }
 
@@ -41,11 +41,8 @@ public class RecursiveSolution {
     public static int fib(int n) {
         if (n < 0) throw new IllegalArgumentException("Enter a non-negative integer");
 
-        if (n == 0) {
-            return 0;
-        } else if (n == 1) {
-            return 1;
-        }
+        if (n == 0) return 0;
+        if (n == 1) return 1;
 
         return fib(n - 1) + fib(n - 2);
 
@@ -59,7 +56,7 @@ public class RecursiveSolution {
      */
     public static String reverseStr(String str) {
         Objects.requireNonNull(str, "Input must be a String!");
-            if (str.isEmpty()) return str;
+        if (str.isEmpty()) return str;
 
         return str.charAt(str.length() - 1) + reverseStr(str.substring(0, str.length() - 1));
 
@@ -102,6 +99,16 @@ public class RecursiveSolution {
 
     }
 
+    private static int countUniquePathsHelper(int n, int m, int[][] mem) {
+        if (n == 1 || m == 1) return 1;
+
+        if (mem[n - 1][m - 1] != 0) return mem[n - 1][m - 1];
+
+        mem[n - 1][m - 1] = countUniquePathsHelper(n - 1, m, mem) + countUniquePathsHelper(n, m - 1, mem);
+
+        return mem[n - 1][m - 1];
+
+    }
 
     /**
      * Calculates the number of unique paths from the top left corner to
@@ -113,11 +120,9 @@ public class RecursiveSolution {
      * @return the number of unique paths
      */
     public static int countUniquePaths(int n, int m) {
-
-        if (n == 1 || m == 1) return 1;
-
-        return countUniquePaths(n, m - 1) + countUniquePaths(n - 1, m);
-
+        if (n <= 0 || m <= 0) return 0;
+        int[][] mem = new int[n][m];
+        return countUniquePathsHelper(n, m, mem);
     }
 
 }
