@@ -49,7 +49,7 @@ public class DirectedGraph {
     public boolean removeEdge(int u, int v) {
         if (!hasEdge(u, v)) return false;
 
-        adjList.get(u).remove(v);
+        adjList.get(u).remove(Integer.valueOf(v));
         numEdges--;
         return true;
     }
@@ -88,6 +88,16 @@ public class DirectedGraph {
         return adjList.get(u);
     }
 
+    public void printGraph() {
+        for (Map.Entry<Integer, List<Integer>> entry : adjList.entrySet()) {
+            System.out.print("Vertex " + entry.getKey() + ": ");
+            for (Integer neighbor : entry.getValue()) {
+                System.out.print(neighbor + " ");
+            }
+            System.out.println();
+        }
+    }
+
     public static void main(String[] args) {
         DirectedGraph graph = new DirectedGraph();
 
@@ -99,9 +109,6 @@ public class DirectedGraph {
         graph.addEdge(0, 2);
         graph.addEdge(1, 2);
 
-        System.out.println(graph.hasEdge(0, 1));
-        System.out.println(graph.hasEdge(1, 0));
+        graph.printGraph();
     }
-//        public boolean isConnected()
-//        public void printGraph()
 }
