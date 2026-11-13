@@ -15,6 +15,10 @@ public class DirectedGraph {
         adjList = new HashMap<>();
     }
 
+    public boolean isDirected() {
+        return true;
+    }
+
     // O(1) check if a node/vertex exists
     public boolean hasVertex(int u) {
         return adjList.containsKey(u);
