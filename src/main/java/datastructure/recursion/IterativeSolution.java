@@ -1,5 +1,8 @@
 package datastructure.recursion;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class IterativeSolution {
 
     /**
@@ -9,7 +12,16 @@ public class IterativeSolution {
      * @return the sum of all non-negative integers up to n
      */
     public static int tri(int n) {
-        return 0;
+        if (n < 0) {
+            throw new IllegalArgumentException("Input must be a non-negative Integer!");
+        }
+
+        int result = 0;
+        for (int i = 0; i <= n; i++) {
+            result += i;
+        }
+
+        return result;
     }
 
     /**
@@ -19,7 +31,18 @@ public class IterativeSolution {
      * @return the multiplication of all non-negative integers up to n
      */
     public static int fact(int n) {
-        return 0;
+        if (n < 0) {
+            throw new IllegalArgumentException("Input must be a non-negative Integer!");
+        }
+
+        if (n == 0) return 1;
+
+        int result = 1;
+        for (int i = 1; i <= n; i++) {
+            result *= i;
+        }
+
+        return result;
     }
 
     /**
@@ -31,7 +54,25 @@ public class IterativeSolution {
      * @return the nth Fibonacci number
      */
     public static int fib(int n) {
-        return 0;
+        if (n < 0) {
+            throw new IllegalArgumentException("Input must be a non-negative Integer or greater than zero! ");
+        }
+
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+
+        int firstLast = 0;
+        int secondLast = 1;
+
+        int current = 0;
+        for (int i = 1; i < n; i++) {
+            current = firstLast + secondLast;
+            firstLast = secondLast;
+            secondLast = current;
+        }
+
+
+        return current;
     }
 
     /**
@@ -41,7 +82,19 @@ public class IterativeSolution {
      * @return the reversed string
      */
     public static String reverseStr(String str) {
-        return "";
+        Objects.requireNonNull(str);
+        if (str.isEmpty()) return "";
+
+        char[] charArr = str.toCharArray();
+
+        int length = charArr.length;
+        for (int i = 0; i < length / 2; i++) {
+            char temp = charArr[i];
+            charArr[i] = charArr[length - 1 - i];
+            charArr[length - 1 - i] = temp;
+        }
+
+        return new String(charArr);
     }
 
     /**
@@ -52,7 +105,15 @@ public class IterativeSolution {
      * @return true if the character exists in the string, false otherwise
      */
     public static boolean hasChar(String str, char c) {
-        return true;
+        Objects.requireNonNull(str);
+
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == c) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -63,7 +124,21 @@ public class IterativeSolution {
      * @return the greatest common divisor of x1 and x2
      */
     public static int gcd(int x1, int x2) {
-        return 0;
+        if (x1 < 0 || x2 < 0) {
+            throw new IllegalArgumentException("x1 and x2 must be non-negative Integers!");
+        }
+
+        if (x1 == 0) return x2; // gcd(0,a)
+        if (x2 == 0) return x1; // gcd(a,0)
+
+        while (true) {
+            if (x1 % x2 == 0) return x2;
+
+            int temp = x2;
+            x2 = x1 % x2;
+            x1 = temp;
+        }
+
     }
 
     /**
@@ -76,8 +151,19 @@ public class IterativeSolution {
      * @return the number of unique paths
      */
     public static int countUniquePaths(int n, int m) {
-        return 0;
+        if (n <= 0 || m <= 0) return 0;
+
+        int[][] table = new int[n][m];
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                if (i == 0 || j == 0) {
+                    table[i][j] = 1;
+                } else {
+                    table[i][j] = table[i - 1][j] + table[i][j - 1];
+                }
+            }
+        }
+        return table[n - 1][m - 1];
     }
-
-
 }
