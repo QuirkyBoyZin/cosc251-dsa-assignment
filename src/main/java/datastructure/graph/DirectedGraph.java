@@ -39,7 +39,7 @@ public class DirectedGraph {
 
         // Remove all edges to this vertex
         for (List<Integer> neighbors : adjList.values()) {
-            if (neighbors.remove((Integer) u)) numEdges--;
+            if (neighbors.remove(Integer.valueOf(u))) numEdges--;
         }
 
         numVertices--;
