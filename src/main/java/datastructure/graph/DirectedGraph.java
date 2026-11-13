@@ -37,12 +37,14 @@ public class DirectedGraph {
     public boolean removeVertex(int u) {
         if (!hasVertex(u)) return false;
 
-        // Remove all edges to this vertex
+        numEdges -= adjList.remove(u).size();
+        numVertices--;
+
+        // Remove all incoming edges to this vertex
         for (List<Integer> neighbors : adjList.values()) {
             if (neighbors.remove(Integer.valueOf(u))) numEdges--;
         }
 
-        numVertices--;
         return true;
     }
 
