@@ -2,14 +2,14 @@ package datastructure.graph;
 
 import java.util.List;
 
-public class DirectedGraph extends Graph {
+public class DirectedGraph<V> extends Graph<V> {
     @Override
     public boolean isDirected() {
         return true;
     }
 
     @Override
-    public void addEdge(int u, int v) {
+    public void addEdge(V u, V v) {
         if (!hasVertex(u) || !hasVertex(v)) {
             throw new IllegalArgumentException("Both vertices must exist before adding an edge.");
         }
@@ -21,24 +21,24 @@ public class DirectedGraph extends Graph {
     }
 
     @Override
-    public boolean removeEdge(int u, int v) {
+    public boolean removeEdge(V u, V v) {
         if (!hasEdge(u, v)) return false;
 
-        adjList.get(u).remove(Integer.valueOf(v));
+        adjList.get(u).remove(v);
         numEdges--;
         return true;
     }
 
     @Override
-    public boolean removeVertex(int u) {
+    public boolean removeVertex(V u) {
         if (!hasVertex(u)) return false;
 
         numEdges -= adjList.remove(u).size();
         numVertices--;
 
         // Remove all incoming edges to this vertex
-        for (List<Integer> neighbors : adjList.values()) {
-            if (neighbors.remove(Integer.valueOf(u))) {
+        for (List<V> neighbors : adjList.values()) {
+            if (neighbors.remove(u)) {
                 numEdges--;
             }
         }
