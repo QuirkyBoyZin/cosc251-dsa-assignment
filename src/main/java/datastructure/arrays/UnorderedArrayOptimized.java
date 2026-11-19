@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class UnorderedArrayOptimized<T> {
-    private T[] arr;
+    private final T[] arr;
     private int size;
 
     @SuppressWarnings("unchecked")
