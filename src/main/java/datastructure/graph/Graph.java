@@ -73,4 +73,8 @@ public abstract class Graph<V> {
             System.out.println();
         }
     }
+
+    public List<V> getVertices() {
+        return new ArrayList<>(adjList.keySet());
+    }
 }
