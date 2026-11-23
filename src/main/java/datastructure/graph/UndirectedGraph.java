@@ -134,7 +134,20 @@ public class UndirectedGraph<V> {
     }
 
     public boolean hasHamiltonianCycle() {
-        return false;
+        if (getNumVertices() < 3) return false;
+
+        for (V vertex : getVertices()) {
+            if (getDegree(vertex) < 2) {
+                return false;
+            }
+        }
+
+        if (!isConnected()) {
+            return false;
+        }
+
+
+        return true;
     }
 
 }
