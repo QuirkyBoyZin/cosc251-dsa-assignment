@@ -3,7 +3,7 @@ package datastructure.graph;
 
 public class HCPSolver {
 
-    public static <T> boolean isHamiltonianCycle(Graph<T> graph) {
+    public static <T> boolean hasHamiltonianCycle(Graph<T> graph) {
         if (graph.getNumVertices() < 3) {
             return false;
         }
