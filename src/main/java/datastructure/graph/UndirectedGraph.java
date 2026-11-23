@@ -52,6 +52,7 @@ public class UndirectedGraph<V> extends Graph<V> {
         return true;
     }
 
+    @Override
     public boolean isConnected() {
         if (numVertices <= 1) {
             return true;

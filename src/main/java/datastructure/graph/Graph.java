@@ -24,6 +24,9 @@ public abstract class Graph<V> {
 
     public abstract boolean removeVertex(V u);
 
+    public abstract boolean isConnected();
+
+
     public boolean hasVertex(V u) {
         return adjList.containsKey(u);
     }

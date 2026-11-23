@@ -107,6 +107,11 @@ public class DirectedGraph<V> extends Graph<V> {
         return visited.size() == numVertices;
     }
 
+    @Override
+    public boolean isConnected() {
+        return isStronglyConnected();
+    }
+
     public boolean isStronglyConnected() {
         if (numVertices <= 1) {
             return true;
