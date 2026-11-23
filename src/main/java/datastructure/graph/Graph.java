@@ -50,6 +50,10 @@ public abstract class Graph<V> {
         return numEdges;
     }
 
+    public boolean isEmpty() {
+        return numVertices == 0;
+    }
+
     public int getDegree(V u) {
         if (!hasVertex(u)) {
             throw new IllegalArgumentException("Vertex " + u + " does not exist in the graph.");
@@ -64,6 +68,10 @@ public abstract class Graph<V> {
         return Collections.unmodifiableList(adjList.get(u));
     }
 
+    public List<V> getVertices() {
+        return new ArrayList<>(adjList.keySet());
+    }
+
     public void printGraph() {
         for (Map.Entry<V, List<V>> entry : adjList.entrySet()) {
             System.out.print("Vertex " + entry.getKey() + ": ");
@@ -72,9 +80,5 @@ public abstract class Graph<V> {
             }
             System.out.println();
         }
-    }
-
-    public List<V> getVertices() {
-        return new ArrayList<>(adjList.keySet());
     }
 }
