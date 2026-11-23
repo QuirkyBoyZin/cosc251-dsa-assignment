@@ -2,14 +2,37 @@ package datastructure.graph;
 
 import java.util.*;
 
-public class UndirectedGraph<V> extends Graph<V> {
+public class UndirectedGraph<V> {
+    private int numVertices;
+    private int numEdges;
+    private final Map<V, List<V>> adjList;
 
-    @Override
-    public boolean isDirected() {
-        return false;
+    public UndirectedGraph() {
+        this.adjList = new HashMap<>();
     }
 
-    @Override
+    public boolean isEmpty() {
+        return numVertices == 0;
+    }
+
+    public boolean hasVertex(V u) {
+        return adjList.containsKey(u);
+    }
+
+    public boolean hasEdge(V u, V v) {
+        if (!hasVertex(u) || !hasVertex(v)) return false;
+        return adjList.get(u).contains(v);
+    }
+
+    public void addVertex(V u) {
+        Objects.requireNonNull(u, "Vertex cannot be null.");
+        if (hasVertex(u)) {
+            throw new IllegalArgumentException("Vertex " + u + " already exists in the graph.");
+        }
+        adjList.put(u, new ArrayList<>());
+        numVertices++;
+    }
+
     public void addEdge(V u, V v) {
         if (!hasVertex(u) || !hasVertex(v)) {
             throw new IllegalArgumentException("Both vertices must exist before adding an edge.");
@@ -27,7 +50,6 @@ public class UndirectedGraph<V> extends Graph<V> {
         numEdges++;
     }
 
-    @Override
     public boolean removeEdge(V u, V v) {
         if (!hasEdge(u, v)) return false;
 
@@ -37,7 +59,6 @@ public class UndirectedGraph<V> extends Graph<V> {
         return true;
     }
 
-    @Override
     public boolean removeVertex(V u) {
         if (!hasVertex(u)) return false;
 
@@ -52,7 +73,42 @@ public class UndirectedGraph<V> extends Graph<V> {
         return true;
     }
 
-    @Override
+    public int getNumVertices() {
+        return numVertices;
+    }
+
+    public int getNumEdges() {
+        return numEdges;
+    }
+
+    public int getDegree(V u) {
+        if (!hasVertex(u)) {
+            throw new IllegalArgumentException("Vertex " + u + " does not exist in the graph.");
+        }
+        return adjList.get(u).size();
+    }
+
+    public List<V> getNeighbors(V u) {
+        if (!hasVertex(u)) {
+            throw new IllegalArgumentException("Vertex " + u + " does not exist in the graph.");
+        }
+        return Collections.unmodifiableList(adjList.get(u));
+    }
+
+    public List<V> getVertices() {
+        return new ArrayList<>(adjList.keySet());
+    }
+
+    public void printGraph() {
+        for (Map.Entry<V, List<V>> entry : adjList.entrySet()) {
+            System.out.print("Vertex " + entry.getKey() + ": ");
+            for (V neighbor : entry.getValue()) {
+                System.out.print(neighbor + " ");
+            }
+            System.out.println();
+        }
+    }
+
     public boolean isConnected() {
         if (numVertices <= 1) {
             return true;
@@ -76,4 +132,9 @@ public class UndirectedGraph<V> extends Graph<V> {
 
         return visited.size() == numVertices;
     }
+
+    public boolean hasHamiltonianCycle() {
+        return false;
+    }
+
 }
