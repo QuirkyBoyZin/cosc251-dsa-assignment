@@ -261,6 +261,10 @@ public class UndirectedGraph {
             return false;
         }
 
+        if (!isUnvisitedConnected(current, start, visited, numOfVisited)) {
+            return false;
+        }
+
 
         for (int neighbor = 0; neighbor < adjMatrix.length; neighbor++) {
             if (adjMatrix[current][neighbor] == 1 && !visited[neighbor]) {
@@ -304,7 +308,37 @@ public class UndirectedGraph {
 
     }
 
-//    private boolean isUnvisitedConnected(int)
+    private boolean isUnvisitedConnected(int current, int start, boolean[] visited, int numOfVisited) {
+
+        int seed = -1;
+        for (int i = 0; i < adjMatrix.length; i++) {
+            if (adjMatrix[i][i] == 0 && !visited[i]) {
+                seed = i;
+                break;
+            }
+        }
+
+        boolean[] seen = new boolean[adjMatrix.length];
+        Queue<Integer> queue = new ArrayDeque<>();
+
+        seen[seed] = true;
+        queue.offer(seed);
+        int reachedCount = 1;
+
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            for (int v = 0; v < adjMatrix.length; v++) {
+                if (adjMatrix[u][v] == 1 && !visited[v] && !seen[v]) {
+                    seen[v] = true;
+                    queue.offer(v);
+                    reachedCount++;
+                }
+            }
+        }
+
+        return reachedCount == numVertices - numOfVisited;
+
+    }
 
 
     public static void main(String[] args) {
