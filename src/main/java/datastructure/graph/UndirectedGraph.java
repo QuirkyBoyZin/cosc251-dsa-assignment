@@ -223,7 +223,90 @@ public class UndirectedGraph {
             return false;
         }
 
+        int start = -1;
+        for (int i = 0; i < adjMatrix.length; i++) {
+            if (adjMatrix[i][i] == 0) {
+                start = i;
+                break;
+            }
+        }
 
-        return true;
+        List<Integer> path = new ArrayList<>();
+        boolean[] visited = new boolean[adjMatrix.length];
+
+        visited[start] = true;
+
+        if (solveHCP(start, start, visited, 1, path)) {
+            System.out.println("Hamiltonian Cycle found: " + path);
+            return true;
+        }
+
+        System.out.println("No Hamiltonian Cycle found.");
+        return false;
+    }
+
+    private boolean solveHCP(int current, int start, boolean[] visited, int numOfVisited, List<Integer> path) {
+        if (numOfVisited == numVertices) {
+            if (adjMatrix[current][start] == 1) {
+                path.add(start);
+                return true;
+            }
+
+            return false;
+        }
+
+        for (int neighbor = 0; neighbor < adjMatrix.length; neighbor++) {
+            if (adjMatrix[current][neighbor] == 1 && !visited[neighbor]) {
+                visited[neighbor] = true;
+                path.add(neighbor);
+
+                if (solveHCP(neighbor, start, visited, numOfVisited + 1, path)) {
+                    return true;
+                }
+
+                visited[neighbor] = false;
+                path.removeLast();
+
+            }
+        }
+
+
+        return false;
+    }
+
+    public static void main(String[] args) {
+        UndirectedGraph graph = new UndirectedGraph();
+
+        // Adding vertices
+        for (int i = 0; i <= 7; i++) {
+            graph.addVertex(i);
+        }
+
+        // Adding edges
+        graph.addEdge(0, 1);
+        graph.addEdge(0, 2);
+        graph.addEdge(0, 4);
+
+        graph.addEdge(1, 5);
+        graph.addEdge(5, 6);
+        graph.addEdge(6, 7);
+        graph.addEdge(7, 3);
+
+        graph.addEdge(4, 3);
+        graph.addEdge(4, 5);
+
+        graph.addEdge(2, 3);
+
+        graph.addEdge(4, 7);
+
+
+        // Print the graph
+        graph.printGraph();
+
+        // Check if the graph is connected
+        System.out.println("Is the graph connected? " + graph.isConnected());
+
+        // Check for Hamiltonian cycle
+        System.out.println("Does the graph have a Hamiltonian cycle? " + graph.hasHamiltonianCycle());
     }
 }
