@@ -235,6 +235,7 @@ public class UndirectedGraph {
         boolean[] visited = new boolean[adjMatrix.length];
 
         visited[start] = true;
+        path.add(start);
 
         if (solveHCP(start, start, visited, 1, path)) {
             System.out.println("Hamiltonian Cycle found: " + path);
@@ -255,6 +256,12 @@ public class UndirectedGraph {
             return false;
         }
 
+
+        if (!hasValidDegreeLeft(current, start, visited)) {
+            return false;
+        }
+
+
         for (int neighbor = 0; neighbor < adjMatrix.length; neighbor++) {
             if (adjMatrix[current][neighbor] == 1 && !visited[neighbor]) {
                 visited[neighbor] = true;
@@ -273,6 +280,32 @@ public class UndirectedGraph {
 
         return false;
     }
+
+    private boolean hasValidDegreeLeft(int current, int start, boolean[] visited) {
+        for (int i = 0; i < adjMatrix.length; i++) {
+            // active and unvisited vertex
+            if (adjMatrix[i][i] == 0 && !visited[i]) {
+                int degreeNum = 0;
+
+                for (int v = 0; v < adjMatrix.length; v++) {
+                    // The edge actually exists then the valid Pool = unvisited U {current, start}
+                    if (adjMatrix[i][v] == 1 && (!visited[v] || v == current || v == start)) {
+                        degreeNum++;
+                    }
+                }
+
+                if (degreeNum < 2) {
+                    return false;
+                }
+            }
+
+        }
+        return true;
+
+    }
+
+//    private boolean isUnvisitedConnected(int)
+
 
     public static void main(String[] args) {
         UndirectedGraph graph = new UndirectedGraph();
