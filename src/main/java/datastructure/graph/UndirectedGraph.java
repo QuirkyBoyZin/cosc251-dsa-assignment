@@ -261,7 +261,7 @@ public class UndirectedGraph {
             return false;
         }
 
-        if (!isUnvisitedConnected(current, start, visited, numOfVisited)) {
+        if (!isUnvisitedConnected(visited, numOfVisited)) {
             return false;
         }
 
@@ -308,7 +308,7 @@ public class UndirectedGraph {
 
     }
 
-    private boolean isUnvisitedConnected(int current, int start, boolean[] visited, int numOfVisited) {
+    private boolean isUnvisitedConnected(boolean[] visited, int numOfVisited) {
 
         int seed = -1;
         for (int i = 0; i < adjMatrix.length; i++) {
