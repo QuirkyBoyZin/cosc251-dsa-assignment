@@ -130,18 +130,19 @@ public class UndirectedGraph {
         return degree;
     }
 
-    public List<Integer> getNeighbors(int u) {
+    public int[] getNeighbors(int u) {
         if (!hasVertex(u)) {
             throw new IllegalArgumentException("Vertex " + u + " does not exist in the graph.");
         }
 
-        List<Integer> neighbors = new ArrayList<>();
-        for (int i = 0; i < adjMatrix.length; i++) {
+        int[] neighbors = new int[getDegree(u)];
+        for (int i = 0, j = 0; i < adjMatrix.length; i++) {
             if (adjMatrix[u][i] == 1) {
-                neighbors.add(i);
+                neighbors[j++] = i;
             }
         }
-        return Collections.unmodifiableList(neighbors);
+
+        return neighbors;
     }
 
     public List<Integer> getVertices() {
