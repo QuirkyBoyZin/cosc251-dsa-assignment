@@ -5,9 +5,9 @@ import java.util.*;
 public class UndirectedGraph {
     private static final int DEFAULT_CAPACITY = 10;
 
-    private int numVertices;
-    private int numEdges;
-    private int[][] adjMatrix;
+    protected int numVertices;
+    protected int numEdges;
+    protected int[][] adjMatrix;
 
     public UndirectedGraph() {
         this(DEFAULT_CAPACITY);
@@ -145,19 +145,21 @@ public class UndirectedGraph {
         return neighbors;
     }
 
-    public List<Integer> getVertices() {
-        List<Integer> vertices = new ArrayList<>();
-        for (int i = 0; i < adjMatrix.length; i++) {
+    public int[] getVertices() {
+        int[] vertices = new int[numVertices];
+
+        for (int i = 0, j = 0; i < adjMatrix.length; i++) {
             if (adjMatrix[i][i] == 0) {
-                vertices.add(i);
+                vertices[j++] = i;
             }
         }
+
         return vertices;
     }
 
     public void printGraph() {
-        List<Integer> vertices = getVertices();
-        if (vertices.isEmpty()) {
+        int[] vertices = getVertices();
+        if (vertices.length == 0) {
             System.out.println("Graph is empty.");
             return;
         }
@@ -339,42 +341,5 @@ public class UndirectedGraph {
 
         return reachedCount == numVertices - numOfVisited;
 
-    }
-
-
-    public static void main(String[] args) {
-        UndirectedGraph graph = new UndirectedGraph();
-
-        // Adding vertices
-        for (int i = 0; i <= 7; i++) {
-            graph.addVertex(i);
-        }
-
-        // Adding edges
-        graph.addEdge(0, 1);
-        graph.addEdge(0, 2);
-        graph.addEdge(0, 4);
-
-        graph.addEdge(1, 5);
-        graph.addEdge(5, 6);
-        graph.addEdge(6, 7);
-        graph.addEdge(7, 3);
-
-        graph.addEdge(4, 3);
-        graph.addEdge(4, 5);
-
-        graph.addEdge(2, 3);
-
-        graph.addEdge(4, 7);
-
-
-        // Print the graph
-        graph.printGraph();
-
-        // Check if the graph is connected
-        System.out.println("Is the graph connected? " + graph.isConnectedDFS());
-
-        // Check for Hamiltonian cycle
-        System.out.println("Does the graph have a Hamiltonian cycle? " + graph.hasHamiltonianCycle());
     }
 }
