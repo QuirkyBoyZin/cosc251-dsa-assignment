@@ -7,6 +7,7 @@ public class UndirectedGraph {
 
     private int numVertices;
     private int numEdges;
+    private List<Integer> vertices;
     private int[][] adjMatrix;
 
     public UndirectedGraph() {
@@ -23,33 +24,14 @@ public class UndirectedGraph {
         }
         this.numVertices = 0;
         this.numEdges = 0;
-    }
-
-    private void resize(int newCapacity) {
-        int[][] newMatrix = new int[newCapacity][newCapacity];
-        int oldCapacity = adjMatrix.length;
-
-        for (int i = 0; i < oldCapacity; i++) {
-            System.arraycopy(adjMatrix[i], 0, newMatrix[i], 0, oldCapacity);
-        }
-        for (int i = oldCapacity; i < newCapacity; i++) {
-            newMatrix[i][i] = -1;
-        }
-
-        this.adjMatrix = newMatrix;
+        this.vertices = new ArrayList<>();
     }
 
     public boolean isEmpty() {
         return numVertices == 0;
     }
 
-    public boolean hasVertex(int u) {
-        return u >= 0 && u < adjMatrix.length && adjMatrix[u][u] == 0;
-    }
-
-    public boolean hasEdge(int u, int v) {
-        return hasVertex(u) && hasVertex(v) && adjMatrix[u][v] == 1;
-    }
+    // ========= Vertex =========
 
     public void addVertex(int u) {
         if (u < 0) {
@@ -64,8 +46,42 @@ public class UndirectedGraph {
 
         adjMatrix[u][u] = 0;
         numVertices++;
+        vertices.add(u);
     }
 
+    public boolean removeVertex(int u) {
+        if (!hasVertex(u)) return false;
+
+        for (int i = 0; i < adjMatrix.length; i++) {
+            if (adjMatrix[u][i] == 1) {
+                adjMatrix[u][i] = 0;
+                adjMatrix[i][u] = 0;
+                numEdges--;
+            }
+        }
+
+        adjMatrix[u][u] = -1;
+        numVertices--;
+        return true;
+    }
+
+    public boolean hasVertex(int u) {
+        return u >= 0 && u < adjMatrix.length && adjMatrix[u][u] == 0;
+    }
+
+    public int getDegree(int u) {
+        if (!hasVertex(u)) {
+            throw new IllegalArgumentException("Vertex " + u + " does not exist in the graph.");
+        }
+
+        int degree = 0;
+        for (int i = 0; i < adjMatrix.length; i++) {
+            if (adjMatrix[u][i] == 1) degree++;
+        }
+        return degree;
+    }
+
+    // ========= Edging =========
     public void addEdge(int u, int v) {
         if (!hasVertex(u) || !hasVertex(v)) {
             throw new IllegalArgumentException("Both vertices must exist before adding an edge.");
@@ -92,70 +108,11 @@ public class UndirectedGraph {
         return true;
     }
 
-    public boolean removeVertex(int u) {
-        if (!hasVertex(u)) return false;
-
-        for (int i = 0; i < adjMatrix.length; i++) {
-            if (adjMatrix[u][i] == 1) {
-                adjMatrix[u][i] = 0;
-                adjMatrix[i][u] = 0;
-                numEdges--;
-            }
-        }
-
-        adjMatrix[u][u] = -1;
-        numVertices--;
-        return true;
-    }
-
-    public int getNumVertices() {
-        return numVertices;
-    }
-
-    public int getNumEdges() {
-        return numEdges;
-    }
-
-    public int getDegree(int u) {
-        if (!hasVertex(u)) {
-            throw new IllegalArgumentException("Vertex " + u + " does not exist in the graph.");
-        }
-
-        int degree = 0;
-        for (int i = 0; i < adjMatrix.length; i++) {
-            if (adjMatrix[u][i] == 1) {
-                degree++;
-            }
-        }
-        return degree;
-    }
-
-    public List<Integer> getNeighbors(int u) {
-        if (!hasVertex(u)) {
-            throw new IllegalArgumentException("Vertex " + u + " does not exist in the graph.");
-        }
-
-        List<Integer> neighbors = new ArrayList<>();
-        for (int i = 0; i < adjMatrix.length; i++) {
-            if (adjMatrix[u][i] == 1) {
-                neighbors.add(i);
-            }
-        }
-        return Collections.unmodifiableList(neighbors);
-    }
-
-    public List<Integer> getVertices() {
-        List<Integer> vertices = new ArrayList<>();
-        for (int i = 0; i < adjMatrix.length; i++) {
-            if (adjMatrix[i][i] == 0) {
-                vertices.add(i);
-            }
-        }
-        return vertices;
+    public boolean hasEdge(int u, int v) {
+        return hasVertex(u) && hasVertex(v) && adjMatrix[u][v] == 1; // Doesn't show that u or v doesn't exist. Since it all return false, no meaningful message
     }
 
     public void printGraph() {
-        List<Integer> vertices = getVertices();
         if (vertices.isEmpty()) {
             System.out.println("Graph is empty.");
             return;
@@ -176,10 +133,24 @@ public class UndirectedGraph {
         }
     }
 
-    public boolean isConnected() {
-        if (numVertices <= 1) {
-            return true;
+    private void resize(int newCapacity) {
+        int[][] newMatrix = new int[newCapacity][newCapacity];
+        int oldCapacity = adjMatrix.length;
+
+        for (int i = 0; i < oldCapacity; i++) {
+            System.arraycopy(adjMatrix[i], 0, newMatrix[i], 0, oldCapacity);
         }
+        for (int i = oldCapacity; i < newCapacity; i++) {
+            newMatrix[i][i] = -1;
+        }
+
+        this.adjMatrix = newMatrix;
+    }
+
+    // ========= Graph  =========
+
+    public boolean isConnectedBFS() {
+        if (numVertices <= 1) return true;
 
         int start = -1;
         for (int i = 0; i < adjMatrix.length; i++) {
@@ -210,18 +181,51 @@ public class UndirectedGraph {
         return visitedCount == numVertices;
     }
 
-    public boolean hasHamiltonianCycle() {
-        if (getNumVertices() < 3) return false;
+    public boolean isConnectedDFS() {
+        if (numVertices <= 1) return true;
+        boolean[] visited = new boolean[numVertices];
 
-        for (int vertex : getVertices()) {
-            if (getDegree(vertex) < 2) {
-                return false;
+        // Adding 1 to account for the first vertex
+        int visitedCount =  dfsCount(0, visited) + 1;
+
+        return visitedCount  == numVertices;
+    }
+
+    private int dfsCount(int vertex, boolean[] visited) {
+        visited[vertex] = true;
+        int[] neighbors = getNeighbors(vertex);
+
+        for (int i = 0; i < numVertices; i++) {
+            int neighbor = neighbors[i];
+
+            if (!visited[neighbor]) {
+                return 1 + dfsCount(neighbor, visited);
             }
         }
 
-        if (!isConnected()) {
-            return false;
+        return 0;
+    }
+
+    private int[] getNeighbors(int u) {
+        int[] adjVertices = new int[numVertices];
+
+        for (int i = 0; i < numVertices; i++) {
+            if (adjMatrix[u][i] == 1) adjVertices[i] = i;
         }
+        return adjVertices;
+    }
+
+    // =========== Hamiltonian Cycle Problem =============
+
+    public boolean hasHamiltonianCycle() {
+        if (numVertices < 3) return false;
+
+        for (int vertex : vertices) {
+            if (getDegree(vertex) < 2) return false;
+        }
+
+        if (!isConnectedBFS()) return false;
+
 
         int start = -1;
         for (int i = 0; i < adjMatrix.length; i++) {
@@ -371,7 +375,7 @@ public class UndirectedGraph {
         graph.printGraph();
 
         // Check if the graph is connected
-        System.out.println("Is the graph connected? " + graph.isConnected());
+        System.out.println("Is the graph connected? " + graph.isConnectedBFS());
 
         // Check for Hamiltonian cycle
         System.out.println("Does the graph have a Hamiltonian cycle? " + graph.hasHamiltonianCycle());
