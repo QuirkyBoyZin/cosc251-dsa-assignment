@@ -177,7 +177,7 @@ public class UndirectedGraph {
         }
     }
 
-    public boolean isConnected() {
+    public boolean isConnectedDFS() {
         if (numVertices <= 1) {
             return true;
         }
@@ -191,18 +191,18 @@ public class UndirectedGraph {
         }
 
         boolean[] visited = new boolean[adjMatrix.length];
-        Queue<Integer> queue = new ArrayDeque<>();
+        Stack<Integer> stack = new Stack<>();
 
         visited[start] = true;
-        queue.offer(start);
+        stack.push(start);
         int visitedCount = 1;
 
-        while (!queue.isEmpty()) {
-            int current = queue.poll();
+        while (!stack.isEmpty()) {
+            int current = stack.pop();
             for (int i = 0; i < adjMatrix.length; i++) {
                 if (adjMatrix[current][i] == 1 && !visited[i]) {
                     visited[i] = true;
-                    queue.offer(i);
+                    stack.push(i);
                     visitedCount++;
                 }
             }
@@ -220,7 +220,7 @@ public class UndirectedGraph {
             }
         }
 
-        if (!isConnected()) {
+        if (!isConnectedDFS()) {
             return false;
         }
 
@@ -372,7 +372,7 @@ public class UndirectedGraph {
         graph.printGraph();
 
         // Check if the graph is connected
-        System.out.println("Is the graph connected? " + graph.isConnected());
+        System.out.println("Is the graph connected? " + graph.isConnectedDFS());
 
         // Check for Hamiltonian cycle
         System.out.println("Does the graph have a Hamiltonian cycle? " + graph.hasHamiltonianCycle());
